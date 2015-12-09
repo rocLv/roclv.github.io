@@ -1,15 +1,16 @@
-name: Your New Jekyll Site
-description: Blogging about stuffs
-meta_description: "Your New Jekyll Site, Blogging about stuffs"
+name: rocLv's home for ruby & rails
+description: All about ruby and rails
+meta_description: "ruby or rails news, or some site developing stuff"
 
 markdown: redcarpet
 highlighter: pygments
 logo: false
+gems: ['jekyll-paginate']
 paginate: 15
 baseurl: /
-domain_name: 'http://yourblog-domain.com'
-google_analytics: 'UA-XXXXXXXX-X'
-
+domain_name: 'http://roclv.github.io'
+google_analytics: 'UA-71237400-1'
+excerpt_separator: <!--more-->
 # Details for the RSS feed generator
-url:            'blog url'
-author:         'Your Name'
+url:            'roclv.github.io/rss'
+author:         'rocLv'
