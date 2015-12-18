@@ -1,6 +1,14 @@
+---
+layout: post
+title:  rake guide
+---
+# 4 days Rake Guide
+* Day 1: Introduction to Rake
+* Day 2: Dependencies
+* Day 3: Rails and Rake
+* Day 4: Use Rake to build project
+<!--more-->
 # The 4 days Rake Guide
-
-
 
 ## Day 1: Introduction to Rake
 
@@ -218,7 +226,7 @@ task :default => [:all]
 
 That's it for today. Tomorrow we will look at how Rails uses Rake and how can we add custom Rake tasks to a Rails application.
 
-## Days 3: Rails and rake
+## Day 3: Rails and rake
 As I already mentioned Rails uses Rake for various tasks like running the database migrations. Today we are going to look at these tasks.
 If you enter rake -T you will get a list of Rake tasks but this only displays the ones with a description, so the ones intended to be internal are not on this list. If you want to see those too you can use the -A switch:
 ```
