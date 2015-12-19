@@ -16,6 +16,7 @@ GEM
       posix-spawn (~> 0.3.6)
       yajl-ruby (~> 1.2.0)
     rake (10.4.2)
+    redcarpet (3.3.3)
     sshkit (1.7.1)
       colorize (>= 0.7.0)
       net-scp (>= 1.1.2)
@@ -29,6 +30,7 @@ DEPENDENCIES
   capistrano
   jekyll-paginate
   pygments.rb
+  redcarpet
 
 BUNDLED WITH
    1.10.6
