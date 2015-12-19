@@ -34,13 +34,3 @@ set :deploy_to, '/var/www/china-ruby'
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
-
-on 'deploy@china-ruby.org', in: :sequence, wait: 5 do
-  with path: '/usr/local/rvm/gems/ruby-2.2.3/bin/bundle:$PATH' do
-    within '/var/www/china-ruby/current' do
-      execute :pwd
-      execute :bundle
-      execute :jekyll, 'b'
-    end
-  end
-end
