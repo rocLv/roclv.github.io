@@ -43,9 +43,7 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
-      within release_path do
-        execute :jekyll, 'b'
-      end
+      execute :jekyll, 'b'
     end
   end
 
