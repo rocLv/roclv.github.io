@@ -36,6 +36,8 @@ set :deploy_to, '/var/www/china-ruby'
 # set :keep_releases, 5
 
 on 'deploy@china-ruby.org', in: :sequence, wait: 5 do
-  execute :bundle
-  execute :jekyll, 'b'
+  within '/var/www/china-ruby/current' do
+    execute :bundle
+    execute :jekyll, 'b'
+  end
 end
