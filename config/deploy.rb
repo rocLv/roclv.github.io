@@ -35,16 +35,7 @@ set :deploy_to, '/var/www/china-ruby'
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-namespace :deploy do
-
-  after :restart, :clear_cache do
-    on roles(:all), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-      execute :jekyll, 'b'
-    end
-  end
-
+on 'china-ruby.org' do
+  execute :bundle
+  execute :jekyll, 'b'
 end
