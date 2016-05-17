@@ -2,7 +2,6 @@ name: rocLv's home for ruby & rails
 description: All about ruby and rails
 meta_description: "ruby or rails news, or some site developing stuff"
 
-markdown: redcarpet
 highlighter: rouge
 logo: false
 gems: ['jekyll-paginate']
