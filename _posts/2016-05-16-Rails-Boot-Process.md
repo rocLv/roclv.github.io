@@ -11,6 +11,7 @@ title: Rails Boot Process
 * 当Rails启动的时候发生了什么
 
 <!-- more -->
+
 Rails有以下几个命令，应用于不同的场景：
 
 ```
