@@ -10,7 +10,7 @@ title: Rails Boot Process
 * Rails的组件是怎样集成起来的
 * 当Rails启动的时候发生了什么
 
-<!-- more -->
+<!--more-->
 
 Rails有以下几个命令，应用于不同的场景：
 
