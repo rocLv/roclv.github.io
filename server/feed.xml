@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Liquid error: internal</title>
+    <description>All about ruby and rails</description>
+    <link>roclv.github.io/rss//</link>
+    <atom:link href="roclv.github.io/rss//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>2018-04-12 10:34:33 +0800</pubDate>
+    <lastBuildDate>2018-04-12 10:34:33 +0800</lastBuildDate>
+    <generator>Jekyll v</generator>
+    
+      <item>
+        <title>Logistic Regression with a Neural Network mindset</title>
+        <description>
+&lt;h3 id=&quot;regression_with_a_neural_network_mindset&quot;&gt;Regression with a Neural Network mindset&lt;/h3&gt;
+
+&lt;p&gt;This is Andrew Ng’s Deeplearnig Course assignment 2-2 &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;get_&quot;&gt;Get &lt;code&gt;h5 file&amp;#39;s information&lt;/code&gt;&lt;/h4&gt;
+
+&lt;p&gt;“thon&lt;/p&gt;
+
+&lt;p&gt;import h5py&lt;/p&gt;
+
+&lt;p&gt;f = h5py.File(‘filename.h5’, ‘r’) print(str(list(f.keys())))&lt;/p&gt;
+
+&lt;p&gt;=&amp;gt; [list_classes, test_set_x]&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h4 id=&quot;reshape_the_training_data&quot;&gt;Reshape the training data&lt;/h4&gt;
+
+&lt;p&gt;“thon X_flatten = X.reshape(X.shape[0], -1).T&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;PS: A trick when you want to flatten a matrix X of shape (a, b, c, d) to a matrix X_flatten of shape (b&lt;em&gt;c&lt;/em&gt;d, a) is to use:&lt;/p&gt;
+
+&lt;p&gt;“thon X_flatten = X.reshape(X.shape[0], -1).T&lt;/p&gt;
+
+&lt;p&gt;x = np.array([[1, 2, 3], [4, 5, 6]]) print(“x’s shape is ” + str(x.shape)) x.reshape(2, -1).T&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt;
+   x&amp;#39;s shape is (2, 3)
+   Out[49]:
+   array([[1, 4],
+          [2, 5],&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To represent color images, the red, green and blue channels (RGB) must be specified for each pixel, and so the pixel value is actually a vector of three numbers ranging from 0 to 255. One common preprocessing step in machine learning is to center and standardize your dataset, meaning that you substract the mean of the whole numpy array from each example, and then divide each example by the standard deviation of the whole numpy array. But for picture datasets, it is simpler and more convenient and works almost as well to just divide every row of the dataset by 255 (the maximum value of a pixel channel).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   [3, 6]])&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>2018-04-12 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2018/04/12/DeepLearning-note.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2018/04/12/DeepLearning-note.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Ctags cheatsheet</title>
+        <description>
+&lt;h3 id=&quot;ctags_cheatsheet&quot;&gt;Ctags cheatsheet&lt;/h3&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Generate ctags: &lt;code&gt;ctags -R *&lt;/code&gt; Open function: &lt;code&gt;vi -t foo_bar&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Ctags and vim &lt;code&gt;:ta&lt;/code&gt; attr_accessor &lt;code&gt;:ts&lt;/code&gt; tags list &lt;code&gt;:tp&lt;/code&gt; tags preview &lt;code&gt;:tn&lt;/code&gt; next tag &lt;code&gt;:tf/:tl&lt;/code&gt; first/last tag &lt;code&gt;Ctrl + ]&lt;/code&gt; to function defination &lt;code&gt;Ctrl + T&lt;/code&gt; to Original File &lt;code&gt;:help tags&lt;/code&gt; &lt;code&gt;Ctrl + I/Ctrl + O&lt;/code&gt; In/Out method&lt;/p&gt;
+</description>
+        <pubDate>2016-06-25 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2016/06/25/Ctag-cheatsheet.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2016/06/25/Ctag-cheatsheet.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Rails Boot Process</title>
+        <description>
+&lt;p&gt;这是根据Rails Conference 2016中Xavier Noria的演讲整理而成。&lt;/p&gt;
+
+&lt;p&gt;这篇演讲的目标是理解Rails的启动过程： * 理解config/boot.rb、config/environment.rb等等的作用 * Rails的组件是怎样集成起来的 * 当Rails启动的时候发生了什么&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Rails有以下几个命令，应用于不同的场景：&lt;/p&gt;
+
+&lt;p&gt;“in/rails server bin/rails console&lt;/p&gt;
+
+&lt;p&gt;bin/rails runner&lt;/p&gt;
+
+&lt;p&gt;bin/rails routes&lt;/p&gt;
+
+&lt;p&gt;“他的命令大家都比较熟悉，很多人不熟悉的是&lt;code&gt;railsrunner&lt;/code&gt;这个命令，（比如笔者我,汗）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Usage: rails runner [options] [&amp;lt;&amp;#39;Some.ruby(code)&amp;#39;&amp;gt; | &amp;lt;filename.rb&amp;gt;]
+
+    -e, --environment=name           Specifies the environment for the runner to operate under (test/development/production).
+                                     Default: development
+
+    -h, --help                       Show this help message.
+
+Examples:
+    rails runner &amp;#39;puts Rails.env&amp;#39;
+        This runs the code `puts Rails.env` after loading the app
+
+    rails runner path/to/filename.rb
+        This runs the Ruby file located at `path/to/filename.rb` after loading the app
+
+You can also use runner as a shebang line for your executables:&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;pre&gt;&lt;code&gt;    #!/usr/bin/env /Users/wangqsh/Samples/rails5sample/bin/rails runner
+
+    Product.&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面是runner的一些用法，和&lt;code&gt;ruby -e&lt;/code&gt;的用法差不多&lt;/p&gt;
+
+&lt;p&gt;让我们打开&lt;code&gt;bin/rails&lt;/code&gt;文件看看：&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h1 id=&quot;binrails&quot;&gt;bin/rails文件的内容&lt;/h1&gt;
+
+&lt;h1 id=&quot;usrbinenv_ruby&quot;&gt;!/usr/bin/env ruby&lt;/h1&gt;
+
+&lt;p&gt;APP_PATH = File.expand_path(‘../config/application’, &lt;strong&gt;dir&lt;/strong&gt;) require_relative ‘../config/boot’ require ‘rails/commands’&lt;/p&gt;
+
+&lt;p&gt;“一行是shebang，在linux可以直接运行&lt;/p&gt;
+
+&lt;p&gt;第二行定义了APP_PATH这个常量&lt;/p&gt;
+
+&lt;p&gt;“by APP_PATH = File.expand_path(‘../config/application’, &lt;strong&gt;dir&lt;/strong&gt;)&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;__dir__&lt;/code&gt;返回当前路径，然后通过&lt;code&gt;File.expand_path&lt;/code&gt;返回绝对路径。&lt;/p&gt;
+
+&lt;p&gt;第三四行&lt;code&gt;require&lt;/code&gt; boot文件和commands文件&lt;/p&gt;
+
+&lt;p&gt;我们看看&lt;code&gt;boot.rb&lt;/code&gt;文件中的内容&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;configbootrb&quot;&gt;config/boot.rb&lt;/h1&gt;
+
+&lt;p&gt;ENV[BUNDLE_GEMFILE] ||= File.expand_path(‘../Gemfile’, &lt;strong&gt;dir–) require ‘bundle/setup’&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;“个文件的作用是执行&lt;code&gt;bundle setup&lt;/code&gt;,安装项目需要的gem。&lt;/p&gt;
+
+&lt;p&gt;让我们再看看&lt;code&gt;bin/rake&lt;/code&gt;文件中的内容&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;binrakerb&quot;&gt;bin/rake.rb&lt;/h1&gt;
+
+&lt;h1 id=&quot;usrbinenv_ruby_2&quot;&gt;!/usr/bin/env ruby&lt;/h1&gt;
+
+&lt;p&gt;require_relative ‘../config/boot’ require ‘rake’ Rake.application.run&lt;/p&gt;
+
+&lt;p&gt;“样是先安装所需的Gem，然后启动程序。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;bin/rails&lt;/code&gt; 和 &lt;code&gt;bin/rake&lt;/code&gt;一样都是先执行&lt;code&gt;config/boot.rb&lt;/code&gt;中的内容&lt;/p&gt;
+
+&lt;p&gt;我们再看看&lt;code&gt;config.ru&lt;/code&gt;文件中的内容。&lt;code&gt;config.ru&lt;/code&gt;是所有 rake 程序的启动文件.&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;configru&quot;&gt;config.ru&lt;/h1&gt;
+
+&lt;h1 id=&quot;this_file_is_used_by_rackbased_servers_to_start_the_application&quot;&gt;This file is used by Rack-based servers to start the application.&lt;/h1&gt;
+
+&lt;p&gt;require_relative ‘config/environment’&lt;/p&gt;
+
+&lt;p&gt;run Rails.application&lt;/p&gt;
+
+&lt;p&gt;“如该文件所注释的一样,这个文件是所有几乎 Rake 的服务器的启动程序, 任何支持&lt;code&gt;call&lt;/code&gt; 方法的函数都可以.&lt;/p&gt;
+
+&lt;p&gt;这个文件 &lt;code&gt;require&lt;/code&gt; 了&lt;code&gt;config/environment.rb&lt;/code&gt; 文件.&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;configenvironmentrb&quot;&gt;config/environment.rb&lt;/h1&gt;
+
+&lt;h1 id=&quot;load_the_rails_application&quot;&gt;Load the Rails application.&lt;/h1&gt;
+
+&lt;p&gt;require_relative ‘application’&lt;/p&gt;
+
+&lt;h1 id=&quot;initialize_the_rails_application&quot;&gt;Initialize the Rails application.&lt;/h1&gt;
+
+&lt;p&gt;Rails.application.initialize!&lt;/p&gt;
+
+&lt;p&gt;“&lt;code&gt;environment.rb&lt;/code&gt; 文件中,首先 rails 包含了 application.rb 用来配置我们的 application, 然后 rails 初始化了应用程序.&lt;/p&gt;
+
+&lt;p&gt;让我们再看看&lt;code&gt;config/application.rb&lt;/code&gt; 中的内容:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;configapplicationrb&quot;&gt;config/application.rb&lt;/h1&gt;
+
+&lt;p&gt;require_relative ‘boot’&lt;/p&gt;
+
+&lt;p&gt;require ‘rails/all’&lt;/p&gt;
+
+&lt;h1 id=&quot;require_the_gems_listed_in_gemfile_including_any_gems&quot;&gt;Require the gems listed in Gemfile, including any gems&lt;/h1&gt;
+
+&lt;h1 id=&quot;youve_limited_to_test_development_or_production&quot;&gt;you’ve limited to :test, :development, or :production.&lt;/h1&gt;
+
+&lt;p&gt;Bundler.require(&lt;em&gt;Rails.groups)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;module Rails5sample class Application &amp;lt; Rails::Application # Settings in config/environments/* take precedence over those specified here. # Application configuration should go into files in config/initializers # – all .rb files in that directory are automatically loaded. end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;到此为止 我们的Rails程序已经启动了. 让我们再概括一下Rails 程序的启动过程:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为我们的应用程序的依赖库定义了加载的路径(Bundle.setup)&lt;/li&gt;
+
+&lt;li&gt;加载 rails/all&lt;/li&gt;
+
+&lt;li&gt;加载gem依赖库( Bundle.require)&lt;/li&gt;
+
+&lt;li&gt;定义了我们的应用程序类&lt;/li&gt;
+
+&lt;li&gt;Rails.application.initialize!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;railsrailtie&quot;&gt;Rails::Railtie&lt;/h2&gt;
+
+&lt;p&gt;Rails::Railtie 是一个提供以下功能的类:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当&lt;code&gt;console&lt;/code&gt;, &lt;code&gt;runner&lt;/code&gt; 等命令被唤起的时候, 为将要执行的代码提供钩子函数&lt;/li&gt;
+
+&lt;li&gt;定义自定义配置项的能力&lt;/li&gt;
+
+&lt;li&gt;在应用程序启动期间宣称要执行的代码的能力&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Railtie 是 Rails::Railtie 的子类. 因为 Rails::Railtie 会通过&lt;code&gt;inherited&lt;/code&gt;钩子方法来注册继承了 Rails::Railtie 的子类, 所以Rails知道那个 railtie被注册了.&lt;/p&gt;
+
+&lt;p&gt;让我们看一个例子,下面是 factory_girl 中的 Railtie:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;factory_girl_railsrailtierb&quot;&gt;factory_girl_rails/railtie.rb&lt;/h1&gt;
+
+&lt;p&gt;module FactoryGirl class Railtie &amp;lt; Rails::Railtie&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;initializer &amp;quot;factory_girl.set_factory_paths&amp;quot; do
+  FactoryGirl.definition_file_paths = [
+    Rails.root.join(&amp;#39;factories&amp;#39;),
+    Rails.root.join(&amp;#39;test&amp;#39;, &amp;#39;factories&amp;#39;),
+    Rails.root.join(&amp;#39;spec&amp;#39;, &amp;#39;factories&amp;#39;)
+  ]
+end&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;rails__railtie_rails_&quot;&gt;Rails 组件通过定义 Railtie和 Rails 集成在一起.&lt;/h2&gt;
+
+&lt;p&gt;例如:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;active_recordrailtierb&quot;&gt;active_record/railtie.rb&lt;/h1&gt;
+
+&lt;p&gt;module ActiveRecord class Railtie &amp;lt; Rails::Railtie console do |app| if app.sandbox? # Load sandbox support end&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  # Code to log SQL to STDERR
+end&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;另外看看action_dispatch 中的 Railtie:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;action_dispatchraitierb&quot;&gt;action_dispatch/raitie.rb&lt;/h1&gt;
+
+&lt;p&gt;module ActionDispatch class Railtie &amp;lt; Rails::Railtie config.action_dispatch = ActiveSupport::OrderedOptions.new&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;config.action_dispatch.tld_length = 1&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;下面是&lt;code&gt;all.rb&lt;/code&gt; 中的内容&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;p&gt;require “rails”&lt;/p&gt;
+
+&lt;p&gt;%w( active_record/railtie action_controller/railtie action_view/railtie action_mailer/railtie active_job/railtie action_cable/engine rails/test_unit/railtie sprockets/railtie ).each do |railtie| begin require “#{railtie}” rescue LoadError end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;_rails_&quot;&gt;这其中的首要原则是应用程序和 Rails 组件需要解耦.&lt;/h2&gt;
+
+&lt;h2 id=&quot;railtie_&quot;&gt;Railtie 知道它们生存在父应用程序中.&lt;/h2&gt;
+
+&lt;h2 id=&quot;_rails_15_railtie&quot;&gt;一个普通的 Rails 应用程序有15个 Railtie.&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I18n::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActiveSupport::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActionDispatch::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActiveModel::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActionView::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActionController::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActiveRecord::Railtie&lt;/li&gt;
+
+&lt;li&gt;GlobalID::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActiveJob::Railtie&lt;/li&gt;
+
+&lt;li&gt;ActionMailer::Railtie&lt;/li&gt;
+
+&lt;li&gt;Sprockets::Railtie&lt;/li&gt;
+
+&lt;li&gt;JBuilder::Railtie&lt;/li&gt;
+
+&lt;li&gt;WebConsole::Railtie&lt;/li&gt;
+
+&lt;li&gt;Sass::Rails::Railtie&lt;/li&gt;
+
+&lt;li&gt;Rails::TestUnitRailtie&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;lazy_loading&quot;&gt;Lazy Loading&lt;/h1&gt;
+
+&lt;p&gt;“by module ActiveRecord autoload :Base end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;activesupporton_load&quot;&gt;ActiveSupport.on_load&lt;/h2&gt;
+
+&lt;h2 id=&quot;activesupportrun_oad_hooksactive_record_activerecordbase&quot;&gt;ActiveSupport.run_oad_hooks(:active_record, ActiveRecord::Base)&lt;/h2&gt;
+
+&lt;h1 id=&quot;rails_engine&quot;&gt;Rails Engine&lt;/h1&gt;
+
+&lt;p&gt;Rails::Engine &amp;lt; Rails::Railtie&lt;/p&gt;
+
+&lt;p&gt;Engine有额外的配置和预配置,下面是所有 Engine 都包含的一些初始化配置: * set_load_path, 用来配置加载路径 * set_autoload_paths, 配置自动加载的路径 * add_routing_paths, 配置重新加载器的路由 * add_locales, 为 i18n 配置locales * add_view_paths * load_environment_config, 加载config/environments/#{Rails.env}.rb * prepend_helpers_ath, 为非独立的引擎或应用程序配置helper 的路径 * load_config_initializers, 按照字典顺序加载config/initializers * engine_blank_point, 什么也不做, 是保留的技术 hook&lt;/p&gt;
+
+&lt;p&gt;一个普通的 Rails 应用程序包括四个 Engine: * ActionCable::Engine * Coffee::Rails::Engine * Jquery::Rails::Engine * Turbolinks::Engine&lt;/p&gt;
+
+&lt;h1 id=&quot;application__railsapplication__&quot;&gt;Application 是 Rails::Application 的子类, 也是单例类.&lt;/h1&gt;
+
+&lt;p&gt;当这个单例类被初始化的时候,会激发 :before_configuration方法.&lt;/p&gt;
+
+&lt;p&gt;Application 会执行四组 initializer: * 继承于 Engine 的 * “Bootstrap” 组 * load_environment_hook, 除了发出这个组开始运行的信号外其他什么也不做 * load_active_support, 加载 active_support/all, 如果 config.active_support.bare 值为 true 时什么也不做 * set_eager_load * initialize_logger, 设置 Rails.logger * initialize_cache, 设置 Rails.cache * initialize_dependency_mechanism, 依据 config.cache_classes的值设置:load 或:require作为自动加载的机制 * bootstrap_hook, 激发:before_initialize&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Railtie and Engine ** 总共有94个initializer&lt;/li&gt;
+
+&lt;li&gt;“完成”组
+&lt;ul&gt;
+&lt;li&gt;add_generate_templates, 为 generate 设置 lib/templates&lt;/li&gt;
+
+&lt;li&gt;ensure_autoload_once_paths_as_subset, 假如auto_load_once_paths没有包含在autoload_paths时退出&lt;/li&gt;
+
+&lt;li&gt;add_builtin_route,在开发者模式为’/‘和’ /rails/info’设置欢迎页面&lt;/li&gt;
+
+&lt;li&gt;build_middleware_stack,配置Rack 应用和中间件&lt;/li&gt;
+
+&lt;li&gt;define_main_app_helper, 为 Engine 定义&lt;code&gt;main_app&lt;/code&gt;, 为了进入父应用中的路由辅助方法&lt;/li&gt;
+
+&lt;li&gt;add_to_prepare_blocks, 在重载器里设置&lt;code&gt;to_prepare&lt;/code&gt;块&lt;/li&gt;
+
+&lt;li&gt;run_prepare_callbacks, 执行那些块&lt;/li&gt;
+
+&lt;li&gt;eager_load!, 假如config.eager_load 的值为true, 激发 before_eager_load和应用的 preload,&lt;/li&gt;
+
+&lt;li&gt;finisher_hook, 激发:after_initialize …&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;&quot;&gt;启动过程摘要&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为依赖库定义加载路径( Bundle.setup )&lt;/li&gt;
+
+&lt;li&gt;加载 Rails 组件的railtie&lt;/li&gt;
+
+&lt;li&gt;加载 gem依赖库( Bundle.require )&lt;/li&gt;
+
+&lt;li&gt;定义应用程序类&lt;/li&gt;
+
+&lt;li&gt;定义按字典顺序排序的加载路径&lt;/li&gt;
+
+&lt;li&gt;加载 config/environments/#{Rails.env}.rb&lt;/li&gt;
+
+&lt;li&gt;Eager Load(按需)&lt;/li&gt;
+
+&lt;li&gt;加载路由&lt;/li&gt;
+
+&lt;li&gt;按需运行命令钩子&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>2016-05-16 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2016/05/16/Rails-Boot-Process.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2016/05/16/Rails-Boot-Process.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Modify Style</title>
+        <description>
+&lt;p&gt;test category&lt;/p&gt;
+</description>
+        <pubDate>2016-05-06 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//tutorial/2016/05/06/modify-style.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//tutorial/2016/05/06/modify-style.html</guid>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Rails 5 command</title>
+        <description>
+&lt;p&gt;Rails 5使用rails来替代rake执行任务。&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Usage: rails COMMAND [ARGS]&lt;/p&gt;
+
+&lt;p&gt;The most common rails commands are: generate Generate new code (short-cut alias: “g”) console Start the Rails console (short-cut alias: “c”) server Start the Rails server (short-cut alias: “s”) test Run tests (short-cut alias: “t”) dbconsole Start a console for the database specified in config/database.yml (short-cut alias: “db”) new Create a new Rails application. “rails new my_app” creates a new application called MyApp in “./my_app”&lt;/p&gt;
+
+&lt;p&gt;All commands can be run with -h (or –help) for more information.&lt;/p&gt;
+
+&lt;p&gt;In addition to those commands, there are: destroy Undo code generated with “generate” (short-cut alias: “d”) plugin new Generates skeleton for developing a Rails plugin runner Run a piece of code in the application environment (short-cut alias: “r”) about List versions of all Rails frameworks and the environment assets:clean[keep] Remove old compiled assets assets:clobber Remove compiled assets assets:environment Load asset compile environment assets:precompile Compile all the assets named in config.assets.precompile cache_digests:dependencies Lookup first-level dependencies for TEMPLATE (like messages/show or comments/_comment.html) cache_digests:nested_dependencies Lookup nested dependencies for TEMPLATE (like messages/show or comments/_comment.html) db:create Creates the database from DATABASE_URL or config/database.yml for the current RAILS_ENV (use db:create:all to create all databases in the config) db:drop Drops the database from DATABASE_URL or config/database.yml for the current RAILS_ENV (use db:drop:all to drop all databases in the config) db:fixtures:load Loads fixtures into the current environment’s database db:migrate Migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog) db:migrate:status Display status of migrations db:rollback Rolls the schema back to the previous version (specify steps w/ STEP=n) db:schema:cache:clear Clears a db/schema_cache.dump file db:schema:cache:dump Creates a db/schema_cache.dump file db:schema:dump Creates a db/schema.rb file that is portable against any DB supported by Active Record db:schema:load Loads a schema.rb file into the database db:seed Loads the seed data from db/seeds.rb db:setup Creates the database, loads the schema, and initializes with the seed data (use db:reset to also drop the database first) db:structure:dump Dumps the database structure to db/structure.sql db:structure:load Recreates the databases from the structure.sql file db:version Retrieves the current schema version number initializers Print out all defined initializers in the order they are invoked by Rails log:clear Truncates all &lt;em&gt;.log files in log/ to zero bytes (specify which logs with LOGS=test,development) middleware Prints out your Rack middleware stack notes Enumerate all annotations (use notes:optimize, :fixme, :todo for focus) notes:custom Enumerate a custom annotation, specify with ANNOTATION=CUSTOM rails:template Applies the template supplied by LOCATION=(/path/to/template) or URL rails:update Update configs and some other initially generated files (or use just update:configs or update:bin) restart Restart app by touching tmp/restart.txt routes Print out all defined routes in match order, with names secret Generate a cryptographically secure secret key (this is typically used to generate a secret for cookie sessions) stats Report code statistics (KLOCs, etc) from the application or engine test Runs all tests in test folder test:db Run tests quickly, but also reset db time:zones:all Displays all time zones, also available: time:zones:us, time:zones:local – filter with OFFSET parameter, e.g., OFFSET=-6 tmp:clear Clear cache and socket files from tmp/ (narrow w/ tmp:cache:clear, tmp:sockets:clear) tmp:create Creates tmp directories for cache, sockets, and pids&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>2015-12-22 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2015/12/22/rails5-command.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2015/12/22/rails5-command.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>rake guide</title>
+        <description>
+&lt;h1 id=&quot;4_days_rake_guide&quot;&gt;4 days Rake Guide&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Day 1: Introduction to Rake&lt;/li&gt;
+
+&lt;li&gt;Day 2: Dependencies&lt;/li&gt;
+
+&lt;li&gt;Day 3: Rails and Rake&lt;/li&gt;
+
+&lt;li&gt;Day 4: Use Rake to build project&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;h1 id=&quot;the_4_days_rake_guide&quot;&gt;The 4 days Rake Guide&lt;/h1&gt;
+
+&lt;h2 id=&quot;day_1_introduction_to_rake&quot;&gt;Day 1: Introduction to Rake&lt;/h2&gt;
+
+&lt;h3 id=&quot;what_is_rake&quot;&gt;What is rake?&lt;/h3&gt;
+
+&lt;p&gt;Rake is a Rubygem written by Jim Weirich. He built the ruby version of make (the C build tool) and over time Rake became a popular tool to create command line Ruby applications and automation scripts. It has an easy to follow DSL and some very powerful features like task dependencies, but more on these later.&lt;/p&gt;
+
+&lt;h3 id=&quot;what_can_i_use_rake_for&quot;&gt;What can I use Rake for?&lt;/h3&gt;
+
+&lt;p&gt;If you know Ruby on Rails you use Rake very often because most of the command line Rails features are Rake tasks. Namely rake db:migrate, rake test etc. If you need a custom command line script for your Rails application (running an import, periodically updating something in the database) Rake is your friend. Also anytime you want to automate something with a script, Rake is a very powerful tool to rely on.&lt;/p&gt;
+
+&lt;h3 id=&quot;install_rake&quot;&gt;Install rake&lt;/h3&gt;
+
+&lt;p&gt;Rake is distributed as a Rubygem so all you need to do is enter gem install rake in your console to install it.&lt;/p&gt;
+
+&lt;h3 id=&quot;rakefile&quot;&gt;Rakefile&lt;/h3&gt;
+
+&lt;p&gt;Rake reads the task from a Rakefile and in additionally you can separate your tasks into multiple files and put them into the rakelib folder with the .rake extension. Let’s create a Rakefile with a simple task:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;rakefile_2&quot;&gt;Rakefile&lt;/h1&gt;
+
+&lt;p&gt;desc “Hello world” task :hello_world do puts “Hello world!” end&lt;/p&gt;
+
+&lt;p&gt;“ow we know how to make ‘Hello world’ with Rake. Let’s break down this code. First we give a description to the task than we set the name of the task to a symbol(we could you strings too) than passing a block and Rake will evaluate that block when we call this task.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://gallery.mailchimp.com/6f2ca41e3d7b84333e7f7bbe8/images/image1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s call the task:&lt;/p&gt;
+
+&lt;p&gt;“ rake hello_world Hello world!&lt;/p&gt;
+
+&lt;p&gt;“f you enter &lt;code&gt;rake -T&lt;/code&gt; in your console you will get a list of available tasks:&lt;/p&gt;
+
+&lt;p&gt;“ rake -T rake hello_world # Hello world&lt;/p&gt;
+
+&lt;p&gt;“he Rakefile is basically a ruby file so you can write any ruby code inside.&lt;/p&gt;
+
+&lt;h3 id=&quot;task_types&quot;&gt;Task types&lt;/h3&gt;
+
+&lt;p&gt;Rake has four types of tasks:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;task&lt;/code&gt; is a generic task&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;directory&lt;/code&gt; creates a directory&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;file&lt;/code&gt; creates a file with the result of the block we pass&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;multitask&lt;/code&gt; calls its dependencies in parallel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That’s it for today, tomorrow you will learn about dependencies.&lt;/p&gt;
+
+&lt;h2 id=&quot;day_2_dependencies&quot;&gt;Day 2: Dependencies&lt;/h2&gt;
+
+&lt;p&gt;Today I will teach you how Rake handles the dependencies. I will use code examples but instead of repeating the whole code everytime I will just show you the important parts, then at the bottom of the email you can view the full example. Rake makes it easy to define dependent tasks. Let’s say we want to import a dataset from a remote source into our application. We want to make separate tasks for importing the categories, products and the orders so we can run those bits separately:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Import categories” task :categories do puts “import categories” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import products” task :products do puts “import products” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import orders” task :orders do puts “import orders” end&lt;/p&gt;
+
+&lt;p&gt;“o far so good but we need to get the remote data before each of these tasks so we will define another task and set that as a dependency for these:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Download data” task :download do puts “download data from source” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import categories” task :categories =&amp;gt; :download do puts “import categories” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import products” task :products =&amp;gt; :download do puts “import products” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import orders” task :orders =&amp;gt; :download do puts “import orders” end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://gallery.mailchimp.com/6f2ca41e3d7b84333e7f7bbe8/images/image2.jpg&quot; alt=&quot;dependency&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you see you can set a dependency with the hashrocket and you can pass one task or an array of tasks. If you call rake with the -P switch it will display the dependency tree:&lt;/p&gt;
+
+&lt;p&gt;“ rake -P rake categories download rake download rake orders download rake products download&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;In our example, when we import the products, we want to make sure we have the latest categories so let’s make the products task depend on categories:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Download data” task :download do puts “download data from source” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import categories” task :categories =&amp;gt; :download do puts “Import categories” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import products” task :products =&amp;gt; :categories do puts “Import products” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import orders” task :orders =&amp;gt; :download do puts “import orders” end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;This looks great but we would like to have a task to run a full import too so let’s make a task for that:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Import everything” task :all =&amp;gt; [:categories, :products, :orders] do puts “Imported everything” end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://gallery.mailchimp.com/6f2ca41e3d7b84333e7f7bbe8/images/image3.jpg&quot; alt=&quot;array of dependency&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You might think: “But wait… this will run download 3 times and categories 2 times, won’t it?” Nope. Rake disables a task after the first invocation. If you want to run a dependent task even if it is already invoked you can reenable it. If you call the task you should see this result:&lt;/p&gt;
+
+&lt;p&gt;“ rake all download data from source import categories import products import orders Imported everything&lt;/p&gt;
+
+&lt;p&gt;“f you want to import the products only:&lt;/p&gt;
+
+&lt;p&gt;“ rake products download data from source import categories import products&lt;/p&gt;
+
+&lt;p&gt;“f you need to &lt;code&gt;reenable&lt;/code&gt; a task:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Import categories” task :categories =&amp;gt; :download do puts “Import categories” Rake::Task[categories].reenable end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;Note that it imported the categories first because products depends on categories. We can also set a default task with rake so when you call only rake it will run the default task. Let’s set the all task to be the default:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;task :default =&amp;gt; [:all]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;As I promised here is how the Rakefile should look now:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Download data” task :download do puts “download data from source” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import categories” task :categories =&amp;gt; :download do puts “Import categories”&lt;/p&gt;
+
+&lt;p&gt;end&lt;/p&gt;
+
+&lt;p&gt;desc “Import products” task :products =&amp;gt; :categories do puts “Import products” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import orders” task :orders =&amp;gt; :download do puts “import orders” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import eveything” task :all =&amp;gt; [:categories, :products, :orders] do puts “Imported everything” end&lt;/p&gt;
+
+&lt;p&gt;task :default =&amp;gt; [:all]&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;That’s it for today. Tomorrow we will look at how Rails uses Rake and how can we add custom Rake tasks to a Rails application.&lt;/p&gt;
+
+&lt;h2 id=&quot;day_3_rails_and_rake&quot;&gt;Day 3: Rails and rake&lt;/h2&gt;
+
+&lt;p&gt;As I already mentioned Rails uses Rake for various tasks like running the database migrations. Today we are going to look at these tasks. If you enter rake -T you will get a list of Rake tasks but this only displays the ones with a description, so the ones intended to be internal are not on this list. If you want to see those too you can use the -A switch:&lt;/p&gt;
+
+&lt;p&gt;“ rake -T -A rake about # List versions of all Rai.. rake assets:clean[keep] # Remove old compiled assets rake assets:clobber # Remove compiled assets rake assets:environment # Load asset compile enviro. rake assets:precompile # Compile all the assets … rake cache_digests:dependencies # Lookup first-level depen.. rake db:_dump # rake db:charset # …&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;If you want to make a custom Rake task in your Rails application you can create a file with the .rakeextension in the lib/tasks folder. For instance if you would like to make that import inside a Rails application, you would add the code from yesterday to lib/tasks/import.rake. One important part we haven’t talked about yet is namespacing. There might be another task callled download in your Rails application which would cause some unexpected results. Important to note here the fact, if Rake finds a task definition for an already defined task it will extend not override it. To make sure our tasks are safe and also to make them nicely grouped we will move them into a namespace:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;libtasksimportrake&quot;&gt;lib/tasks/import.rake&lt;/h1&gt;
+
+&lt;p&gt;namespace :import desc “Download data” task :download do puts “download data from source” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import categories” task :categories =&amp;gt; :download do puts “import categories” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import products” task :products =&amp;gt; :categories do puts “import products” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import orders” task :orders =&amp;gt; :download do puts “import orders” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import eveything” task :all =&amp;gt; [:categories, :products, :orders] do puts “Imported everything” end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;From now on we can call the tasks with the colon syntax: &lt;code&gt;rake import:all&lt;/code&gt;. When you write a task which interacts with Rails you should set the environment task to a dependency. Since the download task is called in each case we can make that depending on environment:&lt;/p&gt;
+
+&lt;p&gt;“by … task :download =&amp;gt; :environment do puts “download data from source” end …&lt;/p&gt;
+
+&lt;p&gt;“his task basically loads your app for you in the environment you had set. It is good to know Rails sets eager_load to false in this task so if you want to use multiple threads in a task it is better to not use this task as a dependency, rather just load the environment yourself:&lt;/p&gt;
+
+&lt;p&gt;“by …&lt;/p&gt;
+
+&lt;h1 id=&quot;if_you_use_multiple_threads&quot;&gt;if you use multiple threads&lt;/h1&gt;
+
+&lt;p&gt;task :download do Rails.application.require_environment! puts “download data from source” end …&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;This was a short one but tomorrow we will do some really interesting stuff when I will share you how I build this newsletter with the help of Rake. Here is the full Rakefile of what we have done today:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;libtasksimportrake_2&quot;&gt;lib/tasks/import.rake&lt;/h1&gt;
+
+&lt;p&gt;namespace :import desc “Download data” task :download =&amp;gt; :environment do puts “download data from source” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import categories” task :categories =&amp;gt; :download do puts “import categories” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import products” task :products =&amp;gt; :categories do puts “import products” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import orders” task :orders =&amp;gt; :download do puts “import orders” end&lt;/p&gt;
+
+&lt;p&gt;desc “Import eveything” task :all =&amp;gt; [:categories, :products, :orders] do puts “Impor#Imported everything” end end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;day_4_use_rake_to_build_a_project&quot;&gt;Day 4: Use Rake to build a project&lt;/h2&gt;
+
+&lt;p&gt;Taking it to the next level As I already mentioned Rake is intended to be a build tool, but it is used to do a lot of other things and many Rake users don’t even know the features makes Rake a powerful build system. Actually I am using Rake to build this course. I write all the content in markdown, and I have a Rake task which converts that to HTML. I have a directory structure like this:&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;source
+  - day1.md
+  - day2.md
+  - day3.md
+  - day4.md
+  ...
+  Rakefile&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you see, I store my markdown files in the source folder, and I want to have an output folder where I want my HTML files to be created. Rake has a directory method which I can use:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;directory &amp;quot;output&amp;quot;&lt;/code&gt; Next, I will create a Filetask, which is a bit different from normal tasks. Filetasks doesn’t trigger all the time, only if the target file doesn’t exist or the source file is changed since the target was created. Because of this Rake will save some time on rebuilds. Let’s see some code for this:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;rakefile_3&quot;&gt;Rakefile&lt;/h1&gt;
+
+&lt;p&gt;directory “output”&lt;/p&gt;
+
+&lt;p&gt;desc “build day1” file “output/day1.html” =&amp;gt; [output, source/day1.md] do |task| rendered = redcarpet.render( File.read(task.prerequisites.first) ) File.new(task.name, ‘w+’).write(rendered) puts “Built #{task.name}” end&lt;/p&gt;
+
+&lt;p&gt;“hen you define a Filetask, the name of the task is the target file and you can pass an array of prerequisites with the hashrocket and do the work in the block. The prerequisites are the &lt;code&gt;output&lt;/code&gt; folder and the source file in this case. With the file task I have access to the &lt;a href=&quot;http://rake.rubyforge.org/Rake/Task.html&quot;&gt;Task&lt;/a&gt; object in the block which holds the name of the task and the prerequisites. I print the name of the task at the end of the block which helps to see when the file is actually built. If I call &lt;code&gt;rake output/day1.html&lt;/code&gt; twice in a row, the second time it won’t print the output because it will not generate the file again. Two more things to note about Filetasks:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the naming convention is to use strings but you can use symbols if you would like&lt;/li&gt;
+
+&lt;li&gt;Filetasks ignore the namespaces&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If I would go this way I should repeat this code for each day and I am too lazy to do that. Instead I use Rake’s FileList and I create an array of arrays with the target and the source:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;rakefile_4&quot;&gt;Rakefile&lt;/h1&gt;
+
+&lt;p&gt;directory “output”&lt;/p&gt;
+
+&lt;p&gt;source_files = FileList[source/.md] target_files = source_files.pathmap(output/%n.html)]&lt;/p&gt;
+
+&lt;p&gt;target_files.zip(source_files).each do |target, source| desc “build #{target}” file target =&amp;gt; [output, source] do |task| rendered = redcarpet.render( File.read(task.prerequisites.first) ) File.new(task.name, ‘w+’).write(rendered) puts “Built #{task.name}” end end&lt;/p&gt;
+
+&lt;p&gt;“f I list the tasks now I get the following result:&lt;/p&gt;
+
+&lt;p&gt;“ rake -T rake output/day1.html # build output/day1.html rake output/day2.html # build output/day2.html rake output/day3.html # build output/day3.html rake output/day4.html # build output/day4.html&lt;/p&gt;
+
+&lt;p&gt;“ince I don’t want to trigger these individually, I have a task to build all of the source files:&lt;/p&gt;
+
+&lt;p&gt;“by desc “Build all files” task :build =&amp;gt; target_files&lt;/p&gt;
+
+&lt;p&gt;“s you I see I just simply set target_files as a dependency and Rake will call all the dynamically generated tasks for me. This isn’t a bad solution but if I had hundreds of files it wouldn’t be optimal. Instead Rake has another way of achieving the same result. It is called Rules.&lt;/p&gt;
+
+&lt;h3 id=&quot;rules&quot;&gt;Rules&lt;/h3&gt;
+
+&lt;p&gt;This feature of Rake is a little bit like method_missing in Ruby. If Rake couldn’t find a Filetask it will look at the rules defined and if it finds a match, it will call it. When we define a rule we pass the target as either a string or a regular expression, and we also pass the source, but since that is dynamic we will use a lambda to get the source name from the target. Then in the block we will do the work:&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;rakefile_5&quot;&gt;Rakefile&lt;/h1&gt;
+
+&lt;p&gt;directory “output” source = lambda { |fn| fn.pathmap(“source/%n.md”) } rule /^output\/.&lt;em&gt;.html/ =&amp;gt; [source] do |task| rendered = redcarpet.render(File.read(task.source)) File.new(task.name, ‘w+’).write(rendered) puts “Built #{task.name}” end&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;task :build =&amp;gt; [output] + target_files&lt;/p&gt;
+
+&lt;p&gt;“ow we have a few lines of code which covers almost all my needs. One more thing I’d like to have is a way to get a clean state, so I will use Rake’s built in clean task:&lt;/p&gt;
+
+&lt;p&gt;“by require ‘rake/clean’ CLEAN.include(“output”)&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;That’s all I wanted to share with you about Rake. I hope you enjoyed the series of emails and you learned a few tricks. If you have aboutny questions of feedback about what you’ve read don’t hesitate to contact me at greg@molnar.io.&lt;/p&gt;
+
+&lt;p&gt;Copyright © 2015 Gergely Molnar, All rights reserved.&lt;/p&gt;
+</description>
+        <pubDate>2015-12-18 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2015/12/18/rake-guide.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2015/12/18/rake-guide.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>远程调试Rails</title>
+        <description>
+&lt;p&gt;本文分享如何使用Byebug远程Rails。&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;首先在Gemfile里包含byebug&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;gemfile&quot;&gt;Gemfile&lt;/h1&gt;
+
+&lt;p&gt;… group :development do gem ‘byebug’ end&lt;/p&gt;
+
+&lt;p&gt;…&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;然后添加config/initializes/byebug.rb&lt;/p&gt;
+
+&lt;p&gt;“by if Rails.env.development? Byebug.start_server ‘localhost’, ENV.fetch(“BYEBUG_SERVER_PORT”, 1048).to_i end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;然后在需要调试的地方添加&lt;code&gt;byebug&lt;/code&gt;，在命令行启动&lt;/p&gt;
+
+&lt;p&gt;“undle exec byebug -R localhost:1048&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+</description>
+        <pubDate>2015-12-12 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2015/12/12/remote-debug-rails.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2015/12/12/remote-debug-rails.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>speed up rails test 10x with PORO domain</title>
+        <description>
+&lt;p&gt;本文介绍了使用PORO域而不是持久域来提高rails的测试性能。 （这里诞生了一个问题：为了测试写代码，这样对吗？我觉得不对，不过知道有这样的方法也不错。） 想了解的可以进来看看。&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2 id=&quot;trick_1_&quot;&gt;Trick 1: 在测试文件里，直接引用要测试的文件：&lt;/h2&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;specmodelssome_model_specrb&quot;&gt;spec/models/some_model_spec.rb&lt;/h1&gt;
+
+&lt;h1 id=&quot;here_is_the_trick&quot;&gt;here is the trick&lt;/h1&gt;
+
+&lt;p&gt;require File.join(ROOT, ‘app’,‘models’,‘some_model’)&lt;/p&gt;
+
+&lt;h1 id=&quot;_not&quot;&gt;! not&lt;/h1&gt;
+
+&lt;h1 id=&quot;require_spec_helper&quot;&gt;require ‘spec_helper’&lt;/h1&gt;
+
+&lt;h1 id=&quot;test&quot;&gt;test&lt;/h1&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;trick_2_perpetual_gemdatamapperactivemodel&quot;&gt;Trick 2: 使用Perpetual Gem，采用DataMapper方式，而不是ActiveModel&lt;/h2&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;replace&quot;&gt;replace&lt;/h1&gt;
+
+&lt;h1 id=&quot;all__somemodelall&quot;&gt;all = SomeModel.all&lt;/h1&gt;
+
+&lt;h1 id=&quot;to&quot;&gt;to&lt;/h1&gt;
+
+&lt;p&gt;all = Perpetual[SomeModel].all&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;不过，我并不觉得这样就好了。 而且Perpetual目前只支持Postgresql和MongoDB&lt;/p&gt;
+
+&lt;p&gt;欢迎大家留言讨论。&lt;/p&gt;
+</description>
+        <pubDate>2015-12-11 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2015/12/11/speed-up-test-tricks.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2015/12/11/speed-up-test-tricks.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Ruby2.3添加的新特性</title>
+        <description>
+&lt;p&gt;Ruby 2.3将在圣诞节发布，这里是Ruby2.3的一些新特性介绍。 &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;安装2.3预览版：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#使用RVM
+rvm install 2.3.0-preview1
+#使用Rbenv安装
+brew upgrate ruby-build --HEAD
+rbenv install 2.3.0-preview1&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;&quot;&gt;安全导航操作符&lt;/h2&gt;
+
+&lt;p&gt;2.3引入了一个新的操作符“&amp;amp;.”。有点像Rails的&lt;code&gt;#try&lt;/code&gt;方法。在你要使用一个对象来调用某 个方法时，确认这个对象是否为nil的情况下很有用。这样避免了程序运行时抛出 NoMethodError异常。假如对像等于nil时，它会返回nil，否则调用该对象的方法。&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;ruby__22x&quot;&gt;ruby &amp;lt;= 2.2.x&lt;/h1&gt;
+
+&lt;p&gt;if user &amp;amp;&amp;amp; user.admin? # do something end&lt;/p&gt;
+
+&lt;h1 id=&quot;now_ruby_23&quot;&gt;now, ruby 2.3&lt;/h1&gt;
+
+&lt;p&gt;if user&amp;amp;.admin? # do something end&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;_2&quot;&gt;不能修改的字符串&lt;/h2&gt;
+
+&lt;p&gt;在Ruby里，字符串默认是可以修改的。现在使用不可修改的字符串，有助于提高程序性能， 减少内存消耗。不过在ruby 2.3该性能为可选的。计划是ruby 3.0开始，会成为默认的设置。&lt;/p&gt;
+
+&lt;p&gt;在ruby 2.3允许你通过在ruby文件前部声明&lt;code&gt; # frozen_string_literal: true&lt;/code&gt;来启用该功能，&lt;/p&gt;
+
+&lt;p&gt;“by&lt;/p&gt;
+
+&lt;h1 id=&quot;frozen_string_literal_true&quot;&gt;frozen_string_literal: true&lt;/h1&gt;
+
+&lt;p&gt;str = ‘cat’ str[0] = ‘b’&lt;/p&gt;
+
+&lt;h1 id=&quot;frozenrb5in__cant_modify_frozen_string_runtimeerror&quot;&gt;frozen.rb:5:in ‘[]=’: can’t modify frozen String (RuntimeError)&lt;/h1&gt;
+
+&lt;h1 id=&quot;from_frozenrb5in_&quot;&gt;from frozen.rb:5:in ‘&lt;pre style=&quot;border: solid 3px red; background-color: pink&quot; class=&quot;markdown-html-error&quot;&gt;Maruku could not parse this XML/HTML: 
+&amp;lt;main&amp;gt;&amp;#39;&lt;/pre&gt;&lt;/h1&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;也可以在运行时添加参数&lt;code&gt;--enable-frozen-string-literal&lt;/code&gt;来测试你的app。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://bugs.ruby-lang.org/issues/11473&quot;&gt;具体介绍&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;arraydig_hashdig&quot;&gt;添加Array#dig 和Hash#dig方法&lt;/h2&gt;
+
+&lt;p&gt;“by list = [2, 3, 5, 7, 9, 11, 13, 17, 19]&lt;/p&gt;
+
+&lt;p&gt;list.dig(1, 2) # =&amp;gt; 9 list.dig(2, 1, 0) # =&amp;gt; 17 list.dig(0, 3) # =&amp;gt; nil&lt;/p&gt;
+
+&lt;p&gt;dict = { a: { x: 23, y: 29 }, b: { x: 31, z: 37 } }&lt;/p&gt;
+
+&lt;p&gt;dict.dig(:a, :x) # =&amp;gt; 23 dict.dig(:b, :z) # =&amp;gt; 37&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;在处理JSON字符串的时候会非常有用。&lt;/p&gt;
+
+&lt;h2 id=&quot;did_you_mean&quot;&gt;“Did you mean？”&lt;/h2&gt;
+
+&lt;p&gt;当你得到NoMethodError的错误时，会提示相似的方法名，是不是很酷？妈妈再也不担心我记不住 方法名了。&lt;/p&gt;
+
+&lt;p&gt;“by 2.3.0-preview1 :026 &amp;gt; “foo bar”.uppcase NoMethodError: undefined method &lt;code&gt;uppcase&amp;#39; for &amp;quot;foo bar&amp;quot;:String
+Did you mean?  upcase
+               upcase!
+  from (irb):26
+  from /Users/wangqsh/.rvm/rubies/ruby-2.3.0-preview1/bin/irb:11:in &lt;/code&gt;&lt;pre style=&quot;border: solid 3px red; background-color: pink&quot; class=&quot;markdown-html-error&quot;&gt;Maruku could not parse this XML/HTML: 
+&amp;lt;main&amp;gt;&amp;#39;&lt;/pre&gt;&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;hash&quot;&gt;Hash比较&lt;/h2&gt;
+
+&lt;p&gt;现在可以用比较符来比较hash了。&lt;/p&gt;
+
+&lt;p&gt;“by { x: 1, y: 2 } &amp;gt;= { x: 1 } # =&amp;gt; true { x: 1, y:2 } &amp;gt;= { x :2 } # =&amp;gt; false&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;具体可以查看&lt;a href=&quot;http://olivierlacan.com/posts/hash-comparison-in-ruby-2-3/&quot;&gt;hash comparation&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;hashto_proc&quot;&gt;Hash也添加了#to_proc方法&lt;/h2&gt;
+
+&lt;p&gt;“by h = { foo: 1, bar: 2, baz: 3 } p = h.to_proc p.call(:foo) # =&amp;gt; 1 p.call(:bar) # =&amp;gt; 2&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;p&gt;这里和哈希的方括号方法一样。主要用在使用&lt;code&gt;&amp;amp;&lt;/code&gt;操作符的时候。&lt;/p&gt;
+
+&lt;p&gt;“by h = { foo: 1, bar: 2 }&lt;/p&gt;
+
+&lt;h1 id=&quot;ruby__22x_2&quot;&gt;ruby &amp;lt;= 2.2.x&lt;/h1&gt;
+
+&lt;p&gt;[:foo, :bar].map { |key| h[key] } # =&amp;gt; [1, 2]&lt;/p&gt;
+
+&lt;h1 id=&quot;ruby_23&quot;&gt;ruby 2.3&lt;/h1&gt;
+
+&lt;p&gt;[:foo, :bar].map(&amp;amp;h)&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;hashfetch_values&quot;&gt;Hash#fetch_values&lt;/h2&gt;
+
+&lt;p&gt;“by h = { foo: 1, :bar, 2 } h.fetch_values(:foo, :bar) # =&amp;gt; [1, 2]&lt;/p&gt;
+
+&lt;p&gt;h.valus_at(:foo, :quux) # =&amp;gt; [1, nil] h.fetch_values(:foo, :quux) # =&amp;gt; raise KeyError&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;enumerablegerp_v&quot;&gt;Enumerable#gerp_v&lt;/h2&gt;
+
+&lt;p&gt;“by list = %w(foo bar baz) list.grep_v(/ba/) # =&amp;gt; [foo] list.grep(/ba/ # =&amp;gt; [bar, baz]&lt;/p&gt;
+
+&lt;p&gt;“&lt;/p&gt;
+
+&lt;h2 id=&quot;numericpositive_negativeruby&quot;&gt;Numeric#positive? 和#negative?正式加入ruby&lt;/h2&gt;
+</description>
+        <pubDate>2015-12-08 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2015/12/08/whats-new-in-the-ruby-2.3.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2015/12/08/whats-new-in-the-ruby-2.3.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>This week&#39;s Rails</title>
+        <description>
+&lt;p&gt;这周Rails有什么新变化了呢？ &lt;!--more--&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;&quot;&gt;新东西&lt;/h2&gt;
+
+&lt;h3 id=&quot;rakerails&quot;&gt;&lt;a href=&quot;https://github.com/rails/rails/pull/22457&quot;&gt;Rake用Rails替换了&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;困扰新手的什么时候该用&lt;code&gt;rails&lt;/code&gt;，什么时候该用&lt;code&gt;rake&lt;/code&gt;，可能有很多新手都有点困扰。 现在你可以随心所欲的用&lt;code&gt;rails&lt;/code&gt;完成所有Rails相关的操作了。&lt;/p&gt;
+
+&lt;h2 id=&quot;_2&quot;&gt;提高&lt;/h2&gt;
+
+&lt;h3 id=&quot;minitestrailsrails_test&quot;&gt;[解决了minitest-rails和Rails test]&lt;/h3&gt;
+
+&lt;p&gt;runner之间的命名冲突](https://github.com/rails/rails/pull/22456)&lt;/p&gt;
+
+&lt;p&gt;通过显示声明了Rails::TestUnitReporter全局命名空间解决了同时使用minitest-rails和 Rails test runner之间的命名冲突。&lt;/p&gt;
+
+&lt;h2 id=&quot;bug&quot;&gt;修复以下bug&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/rails/rails/pull/17169&quot;&gt;初始化的STI（单表继承）模型现在会使用默认类型&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;用&lt;code&gt;respond_to_missing?&lt;/code&gt;替换了&lt;code&gt;ActionMailer::Base.respond_to?&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;厘清连接池错误信息（以前就算用光连接词也不会有提示）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://rails-weekly.ongoodbits.com/2015/12/04/rails-command-infrastructure-and-more&quot;&gt;This week in Rails&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>2015-12-05 00:00:00 +0800</pubDate>
+        <link>roclv.github.io/rss//2015/12/05/this-weeks-rails.html</link>
+        <guid isPermaLink="true">roclv.github.io/rss//2015/12/05/this-weeks-rails.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

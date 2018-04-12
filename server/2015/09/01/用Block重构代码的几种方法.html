@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>rocLv's home for ruby & rails - All about ruby and rails</title>
+    <meta name="description" content="ruby or rails news, or some site developing stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="post-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">用Block重构代码的几种方法</h1>
+            <section class="post-meta">                
+                <time class="post-date" datetime="2015-09-01">01 Sep 2015</time>
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="roclv.github.io/rss">
+                
+                    <span class="blog-title">rocLv's home for ruby & rails</span>
+                 
+            </a>
+        </header> -->
+        
+        <!-- <span class="post-meta">
+            <time datetime="2015-09-01">01 Sep 2015</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">用Block重构代码的几种方法</h1> -->
+
+        <section class="post-content">
+            <!--more-->
+<p>Ruby中block是非常重要的，也是非常特别的一部分内容。 很多代码的重构都可以通过code block得以一种优雅的方式实现。 根据《Ruby最佳实践》中的内容，我简单做一些小结。</p>
+
+<h3 id="">首先，最常见的就是用于遍历。</h3>
+
+<p>“by (1..5).to_a.map { |i| i * 2 }</p>
+
+<p>class SortedList</p>
+
+<p>def initialize @data = [] end</p>
+
+<p>def «(element) (@data « element).sort! end</p>
+
+<p>def each @data.each { |e| yield(e) } end</p>
+
+<p>end</p>
+
+<p>“</p>
+
+<h3 id="_2">其次，用于在方法的预处理和后处理操作中插入代码</h3>
+
+<p>“by File.open(“some.txt”) { |f| f « “some words” }</p>
+
+<p>“</p>
+
+<h3 id="scope">有时也用于临时提升变量的可见范围（scope）（在元编程中比较常见）</h3>
+
+<p>“by “This is a string”.instace_eval do “O hai, can has reverse? #{ revers }. kthxbye” end</p>
+
+<h1 id="_o_hai_can_has_reverse_gnirts_a_si_siht_kthsbye">=&gt; “O hai, can has reverse? gnirts a si sihT. kthsbye”</h1>
+
+<p>“</p>
+
+<h3 id="_3">最后，就是作为模板</h3>
+
+<p>“by</p>
+
+<blockquote>
+<blockquote>
+<p>foo = Hash.new { |h, k| h[k] = [] }</p>
+</blockquote>
+</blockquote>
+
+<p>=&gt; {}</p>
+
+<blockquote>
+<blockquote>
+<p>foo[:bar]</p>
+</blockquote>
+</blockquote>
+
+<p>=&gt; []</p>
+
+<blockquote>
+<blockquote>
+<p>foo[:bar] « 1 « 2 « 3</p>
+</blockquote>
+</blockquote>
+
+<p>=&gt; [1, 2, 3]</p>
+
+<p>“</p>
+
+<h2 id="block">用Block重构代码的几个范例</h2>
+
+<h4 id="blockprepost">用block来重构Pre和Post处理过程</h4>
+
+<p>“by require “socket”</p>
+
+<p>class Client</p>
+
+<p>def initialize(ip = “127.0.0.1”, port = 3333) @ip, @port = ip, port end</p>
+
+<p>def send_message(msg) socket = TCPSocket.new(@ip, @port) socket.puts(msg) response = socket.gets</p>
+
+<p>ensure socket.close if socket end</p>
+
+<p>def receive_message socket = TCPSocket.new(@ip, @port) response = socket.gets</p>
+
+<p>ensure socket.close if socket end</p>
+
+<p>end</p>
+
+<p>“</p>
+
+<p>这个代码明显不符合DRY的风格，所以利用block来重构一下：</p>
+
+<p>“by require “socket”</p>
+
+<p>class Client</p>
+
+<p>def initialize(ip = “127.0.0.1”, port = 3333) @ip, @port = ip, port end</p>
+
+<p>def send_message(msg) connection do |socket| socket.puts(msg) socket.gets end end</p>
+
+<p>def receive_message connection { |socket| socket.gets } end</p>
+
+<p>private</p>
+
+<p>def connetcion socket = TCPSocket.new(@ip, @port) yield(socket)</p>
+
+<p>ensure socket.close if socket end</p>
+
+<p>end</p>
+
+<p>if <strong>FILE</strong> == $0 client = Client.new</p>
+
+<p>[Hello, My name is Greg, Goodbye].each do |msg| response = client.send_message(msg) puts response end end</p>
+
+<h1 id="_4">输出以下内容</h1>
+
+<h1 id="hello_from_server_at_wed_jul_23_161537_">Hello from server at Wed Jul 23 16:15:37 …</h1>
+
+<h1 id="nice_to_meet_you_greg">Nice to meet you Greg!</h1>
+
+<h1 id="goodbye_from_server_at_wed_jul_32_">Goodbye from server at Wed Jul 32 …</h1>
+
+<p>“上代码明显简洁了很多</p>
+
+<h4 id="_5">用于动态回调</h4>
+
+<p>“by require ‘socket’</p>
+
+<p>class Server</p>
+
+<p>def initialize(port = 3333) @server = TCPServer.new(“127.0.0.1”, port) @handlers = {} end</p>
+
+<p>def handle(pattern, &amp;block) @handlers[pattern] = block end</p>
+
+<p>def run while session = @server.accept msg = session.gets match = nil</p>
+
+<pre><code>  @handlers.each do |pattern, block|
+    if match = msg.match(pattern)
+      break session.puts(block.call(match))
+    end
+    
+    unless match
+      session.puts &quot;Server received unknown message: #{msg}&quot;
+    end
+  end
+  
+end</code></pre>
+
+<p>end</p>
+
+<p>end</p>
+
+<p>if <strong>FILE</strong> == $0 server = Server.new</p>
+
+<p>server.handle(/hello/i){ “Helllo from server at #{Time.now}” } server.handle(/goodbye/i){ “Goodbye from server at #{Time.now}” } server.handle(/name is (\w+)/){ |m| “Nice to meet you #{m[1]}!” }</p>
+
+<p>server.run end</p>
+
+<p>“</p>
+
+<h4 id="_6">用于简化接口</h4>
+
+<p>“by</p>
+
+<p>server = Server.new</p>
+
+<p>server.handle(/hello/i){ “Helllo from server at #{Time.now}” } server.handle(/goodbye/i){ “Goodbye from server at #{Time.now}” } server.handle(/name is (\w+)/){ |m| “Nice to meet you #{m[1]}!” }</p>
+
+<p>server.run</p>
+
+<p>#这段代码可以简化为以下版本 Server.run do handle(/hello/i){ “Helllo from server at #{Time.now}” } handle(/goodbye/i){ “Goodbye from server at #{Time.now}” } handle(/name is (\w+)/){ |m| “Nice to meet you #{m[1]}!” } end</p>
+
+<p>#class Server修改如下 class Server #other methods same as before</p>
+
+<pre><code>#声明为类方法
+def self.run（port=3333, &amp;block)
+  server = Server.new(port)
+  #使用instance_eval和&amp;block来重构代码
+  server.instance_eval(&amp;block)
+  server.run
+end</code></pre>
+
+<p>end</p>
+
+<p>“</p>
+
+<h2 id="_7">备注</h2>
+
+<ul>
+<li>假如要创建一个需要遍历元素的集合类，在Emuerable上的基础建立，即 <code>include Enumarable</code></li>
+
+<li>假如两个方法只有中间部分不同，创建一个yield block helper避免代码重复</li>
+
+<li>使用<em>&amp;block</em>,你可以把代码块保存在一个变量中</li>
+
+<li>使用<em>&amp;block</em>和<em>instance_eval</em>组合可以在任意对象的上下文中执行代码块</li>
+</ul>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">rocLv's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> rocLv </h4>
+                    <!-- Author Bio -->
+                    <p> 
+                        I'm a common rubyist, feel free to connect with me.
+                    </p>
+                </section>                
+            
+
+            <!-- Share links section -->
+
+            <form action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+
+       <input name="optEmail" type="hidden" value="roc_war@yahoo.com.cn" />
+
+       <input name="payAmount" type="hidden" value="5" />
+
+       <input id="title" name="title" type="hidden" value="付款说明" />
+
+       <input name="memo" type="hidden" value="备注" />
+
+       <input name="pay" type="image" value="打赏" src= '/assets/images/donate.png' />
+
+      </form>    
+            <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_renren"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+            <!-- Disqus comments -->
+            
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+
+        var disqus_shortname = 'roclv'; 
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">rocLv's home for ruby & rails</a> &copy; 
+               &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-71237400-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>

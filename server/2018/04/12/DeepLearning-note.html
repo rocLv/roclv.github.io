@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>rocLv's home for ruby & rails - All about ruby and rails</title>
+    <meta name="description" content="ruby or rails news, or some site developing stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="post-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Logistic Regression with a Neural Network mindset</h1>
+            <section class="post-meta">                
+                <time class="post-date" datetime="2018-04-12">12 Apr 2018</time>
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="roclv.github.io/rss">
+                
+                    <span class="blog-title">rocLv's home for ruby & rails</span>
+                 
+            </a>
+        </header> -->
+        
+        <!-- <span class="post-meta">
+            <time datetime="2018-04-12">12 Apr 2018</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Logistic Regression with a Neural Network mindset</h1> -->
+
+        <section class="post-content">
+            
+<h3 id="regression_with_a_neural_network_mindset">Regression with a Neural Network mindset</h3>
+
+<p>This is Andrew Ng’s Deeplearnig Course assignment 2-2 <!--more--></p>
+
+<h4 id="get_">Get <code>h5 file&#39;s information</code></h4>
+
+<p>“thon</p>
+
+<p>import h5py</p>
+
+<p>f = h5py.File(‘filename.h5’, ‘r’) print(str(list(f.keys())))</p>
+
+<p>=&gt; [list_classes, test_set_x]</p>
+
+<p>“</p>
+
+<h4 id="reshape_the_training_data">Reshape the training data</h4>
+
+<p>“thon X_flatten = X.reshape(X.shape[0], -1).T</p>
+
+<p>“</p>
+
+<p>PS: A trick when you want to flatten a matrix X of shape (a, b, c, d) to a matrix X_flatten of shape (b<em>c</em>d, a) is to use:</p>
+
+<p>“thon X_flatten = X.reshape(X.shape[0], -1).T</p>
+
+<p>x = np.array([[1, 2, 3], [4, 5, 6]]) print(“x’s shape is ” + str(x.shape)) x.reshape(2, -1).T</p>
+
+<p>“</p>
+
+<pre><code>&gt;
+   x&#39;s shape is (2, 3)
+   Out[49]:
+   array([[1, 4],
+          [2, 5],</code></pre>
+
+<p>To represent color images, the red, green and blue channels (RGB) must be specified for each pixel, and so the pixel value is actually a vector of three numbers ranging from 0 to 255. One common preprocessing step in machine learning is to center and standardize your dataset, meaning that you substract the mean of the whole numpy array from each example, and then divide each example by the standard deviation of the whole numpy array. But for picture datasets, it is simpler and more convenient and works almost as well to just divide every row of the dataset by 255 (the maximum value of a pixel channel).</p>
+
+<pre><code>   [3, 6]])</code></pre>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">rocLv's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> rocLv </h4>
+                    <!-- Author Bio -->
+                    <p> 
+                        I'm a common rubyist, feel free to connect with me.
+                    </p>
+                </section>                
+            
+
+            <!-- Share links section -->
+
+            <form action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+
+       <input name="optEmail" type="hidden" value="roc_war@yahoo.com.cn" />
+
+       <input name="payAmount" type="hidden" value="5" />
+
+       <input id="title" name="title" type="hidden" value="付款说明" />
+
+       <input name="memo" type="hidden" value="备注" />
+
+       <input name="pay" type="image" value="打赏" src= '/assets/images/donate.png' />
+
+      </form>    
+            <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_renren"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+            <!-- Disqus comments -->
+            
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+
+        var disqus_shortname = 'roclv'; 
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">rocLv's home for ruby & rails</a> &copy; 
+               &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-71237400-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>

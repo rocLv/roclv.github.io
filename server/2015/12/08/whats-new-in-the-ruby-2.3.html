@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>rocLv's home for ruby & rails - All about ruby and rails</title>
+    <meta name="description" content="ruby or rails news, or some site developing stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="post-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Ruby2.3添加的新特性</h1>
+            <section class="post-meta">                
+                <time class="post-date" datetime="2015-12-08">08 Dec 2015</time>
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="roclv.github.io/rss">
+                
+                    <span class="blog-title">rocLv's home for ruby & rails</span>
+                 
+            </a>
+        </header> -->
+        
+        <!-- <span class="post-meta">
+            <time datetime="2015-12-08">08 Dec 2015</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Ruby2.3添加的新特性</h1> -->
+
+        <section class="post-content">
+            
+<p>Ruby 2.3将在圣诞节发布，这里是Ruby2.3的一些新特性介绍。 <!--more--></p>
+
+<p>安装2.3预览版：</p>
+
+<pre><code>#使用RVM
+rvm install 2.3.0-preview1
+#使用Rbenv安装
+brew upgrate ruby-build --HEAD
+rbenv install 2.3.0-preview1</code></pre>
+
+<h2 id="">安全导航操作符</h2>
+
+<p>2.3引入了一个新的操作符“&amp;.”。有点像Rails的<code>#try</code>方法。在你要使用一个对象来调用某 个方法时，确认这个对象是否为nil的情况下很有用。这样避免了程序运行时抛出 NoMethodError异常。假如对像等于nil时，它会返回nil，否则调用该对象的方法。</p>
+
+<p>“by</p>
+
+<h1 id="ruby__22x">ruby &lt;= 2.2.x</h1>
+
+<p>if user &amp;&amp; user.admin? # do something end</p>
+
+<h1 id="now_ruby_23">now, ruby 2.3</h1>
+
+<p>if user&amp;.admin? # do something end</p>
+
+<p>“</p>
+
+<h2 id="_2">不能修改的字符串</h2>
+
+<p>在Ruby里，字符串默认是可以修改的。现在使用不可修改的字符串，有助于提高程序性能， 减少内存消耗。不过在ruby 2.3该性能为可选的。计划是ruby 3.0开始，会成为默认的设置。</p>
+
+<p>在ruby 2.3允许你通过在ruby文件前部声明<code> # frozen_string_literal: true</code>来启用该功能，</p>
+
+<p>“by</p>
+
+<h1 id="frozen_string_literal_true">frozen_string_literal: true</h1>
+
+<p>str = ‘cat’ str[0] = ‘b’</p>
+
+<h1 id="frozenrb5in__cant_modify_frozen_string_runtimeerror">frozen.rb:5:in ‘[]=’: can’t modify frozen String (RuntimeError)</h1>
+
+<h1 id="from_frozenrb5in_">from frozen.rb:5:in ‘<pre style="border: solid 3px red; background-color: pink" class="markdown-html-error">Maruku could not parse this XML/HTML: 
+&lt;main&gt;&#39;</pre></h1>
+
+<p>“</p>
+
+<p>也可以在运行时添加参数<code>--enable-frozen-string-literal</code>来测试你的app。</p>
+
+<p><a href="https://bugs.ruby-lang.org/issues/11473">具体介绍</a></p>
+
+<h2 id="arraydig_hashdig">添加Array#dig 和Hash#dig方法</h2>
+
+<p>“by list = [2, 3, 5, 7, 9, 11, 13, 17, 19]</p>
+
+<p>list.dig(1, 2) # =&gt; 9 list.dig(2, 1, 0) # =&gt; 17 list.dig(0, 3) # =&gt; nil</p>
+
+<p>dict = { a: { x: 23, y: 29 }, b: { x: 31, z: 37 } }</p>
+
+<p>dict.dig(:a, :x) # =&gt; 23 dict.dig(:b, :z) # =&gt; 37</p>
+
+<p>“</p>
+
+<p>在处理JSON字符串的时候会非常有用。</p>
+
+<h2 id="did_you_mean">“Did you mean？”</h2>
+
+<p>当你得到NoMethodError的错误时，会提示相似的方法名，是不是很酷？妈妈再也不担心我记不住 方法名了。</p>
+
+<p>“by 2.3.0-preview1 :026 &gt; “foo bar”.uppcase NoMethodError: undefined method <code>uppcase&#39; for &quot;foo bar&quot;:String
+Did you mean?  upcase
+               upcase!
+  from (irb):26
+  from /Users/wangqsh/.rvm/rubies/ruby-2.3.0-preview1/bin/irb:11:in </code><pre style="border: solid 3px red; background-color: pink" class="markdown-html-error">Maruku could not parse this XML/HTML: 
+&lt;main&gt;&#39;</pre></p>
+
+<p>“</p>
+
+<h2 id="hash">Hash比较</h2>
+
+<p>现在可以用比较符来比较hash了。</p>
+
+<p>“by { x: 1, y: 2 } &gt;= { x: 1 } # =&gt; true { x: 1, y:2 } &gt;= { x :2 } # =&gt; false</p>
+
+<p>“</p>
+
+<p>具体可以查看<a href="http://olivierlacan.com/posts/hash-comparison-in-ruby-2-3/">hash comparation</a></p>
+
+<h2 id="hashto_proc">Hash也添加了#to_proc方法</h2>
+
+<p>“by h = { foo: 1, bar: 2, baz: 3 } p = h.to_proc p.call(:foo) # =&gt; 1 p.call(:bar) # =&gt; 2</p>
+
+<p>“</p>
+
+<p>这里和哈希的方括号方法一样。主要用在使用<code>&amp;</code>操作符的时候。</p>
+
+<p>“by h = { foo: 1, bar: 2 }</p>
+
+<h1 id="ruby__22x_2">ruby &lt;= 2.2.x</h1>
+
+<p>[:foo, :bar].map { |key| h[key] } # =&gt; [1, 2]</p>
+
+<h1 id="ruby_23">ruby 2.3</h1>
+
+<p>[:foo, :bar].map(&amp;h)</p>
+
+<p>“</p>
+
+<h2 id="hashfetch_values">Hash#fetch_values</h2>
+
+<p>“by h = { foo: 1, :bar, 2 } h.fetch_values(:foo, :bar) # =&gt; [1, 2]</p>
+
+<p>h.valus_at(:foo, :quux) # =&gt; [1, nil] h.fetch_values(:foo, :quux) # =&gt; raise KeyError</p>
+
+<p>“</p>
+
+<h2 id="enumerablegerp_v">Enumerable#gerp_v</h2>
+
+<p>“by list = %w(foo bar baz) list.grep_v(/ba/) # =&gt; [foo] list.grep(/ba/ # =&gt; [bar, baz]</p>
+
+<p>“</p>
+
+<h2 id="numericpositive_negativeruby">Numeric#positive? 和#negative?正式加入ruby</h2>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">rocLv's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> rocLv </h4>
+                    <!-- Author Bio -->
+                    <p> 
+                        I'm a common rubyist, feel free to connect with me.
+                    </p>
+                </section>                
+            
+
+            <!-- Share links section -->
+
+            <form action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+
+       <input name="optEmail" type="hidden" value="roc_war@yahoo.com.cn" />
+
+       <input name="payAmount" type="hidden" value="5" />
+
+       <input id="title" name="title" type="hidden" value="付款说明" />
+
+       <input name="memo" type="hidden" value="备注" />
+
+       <input name="pay" type="image" value="打赏" src= '/assets/images/donate.png' />
+
+      </form>    
+            <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_renren"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+            <!-- Disqus comments -->
+            
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+
+        var disqus_shortname = 'roclv'; 
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">rocLv's home for ruby & rails</a> &copy; 
+               &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-71237400-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>

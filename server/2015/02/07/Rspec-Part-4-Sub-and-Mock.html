@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>rocLv's home for ruby & rails - All about ruby and rails</title>
+    <meta name="description" content="ruby or rails news, or some site developing stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="post-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Advanced Rspec: Stub & Mock</h1>
+            <section class="post-meta">                
+                <time class="post-date" datetime="2015-02-07">07 Feb 2015</time>
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="roclv.github.io/rss">
+                
+                    <span class="blog-title">rocLv's home for ruby & rails</span>
+                 
+            </a>
+        </header> -->
+        
+        <!-- <span class="post-meta">
+            <time datetime="2015-02-07">07 Feb 2015</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Advanced Rspec: Stub & Mock</h1> -->
+
+        <section class="post-content">
+            <!--more-->
+<pre><code>Defination:
+
+Stub
+  For replacging a method with code that returns a specified result.
+
+Mock
+  A stub with an expectations that the method gets called</code></pre>
+
+<p>“by # app/models/zombe.rb class Zombie &lt; ActiveRecord::Base has_one :weapon</p>
+
+<pre><code>def decaptitate
+  weapon.slice(self, :head)
+  self.status = &quot;dead again&quot;
+end</code></pre>
+
+<p>end</p>
+
+<p># Stub # Zombie.new.weapon.stub(:slice) # # Mock # zombie.weapon.should_receive(:slice) # # spec/models/zombie_spec.rb</p>
+
+<p>describe Zombie do let(:zombie) { Zombie.create } it ‘calls weapon.slice’ do zombie.weapon.should_receive(:slice) zombie.decaptitate end</p>
+
+<pre><code>context &#39;#decaptitate&#39; do
+  zombie.weapon.stub(:slice)
+  zombie.decaptitate
+  zombie.status.should == &#39;dead again&#39;
+end</code></pre>
+
+<p>end</p>
+
+<p>“</p>
+
+<h4 id="mock_with_param">Mock with param</h4>
+
+<p>“by # app/models/zombie.rb</p>
+
+<p>class Zombie &lt; ActiveRecord::Base def geolocate Zoogle.graveyard_locator(self.graveyard) end end</p>
+
+<p># spec/models/zombie_spec.rb</p>
+
+<p>it ‘calls Zoogle.graveyard_locator’ do Zoogle.should_receive(:graveyard_locator).with(zombie.graveyard) zombie.geolocate end</p>
+
+<p>“</p>
+
+<h4 id="mock_with_param_and_returns">Mock with param and returns</h4>
+
+<p>“by # app/models/zombie.rb def geolocate loc = Zoogle.graveyard_locator(self.graveyard) “#{ loc[:latitude] }, #{ loc[:longitude] }” end</p>
+
+<p># spec/models/zombie_spec.rb it ‘calls Zoogle.graveyard_locator’ do Zoogle.should_receive(:graveyard_locator).with(zombie.graveyard).and_return({latitude: 2, longitude: 3}) zombie.geolocate.should == “2, 3” end</p>
+
+<p>“</p>
+
+<h4 id="stub_object">Stub object</h4>
+
+<p>“by # app/models/zombie.rb def geolocate_with_object loc = Zoogle.graveyard_locator(self.graveyard) “#{ loc.latitude }, #{ loc.longitude }” end</p>
+
+<p># spec/models/zombie_spec.rb it ‘returns properly formatted lat, long’ do loc = sub(lantitude: 2, longitude: 3) Zoogle.stub(:graveyard_locator).returns(loc) zoobie.geolocator_with_object.should == ‘2, 3’ end</p>
+
+<p>“</p>
+
+<p>####Stubs in the wild</p>
+
+<p>“by # app/mailers/zombie_mailer.rb class ZombieMailer &lt; ActionMailer::Base def welcome(zombie) mail(from: ‘admin@example.com’, to: zombie.email, subject: ‘Welcome Zombie!’) end end</p>
+
+<p># spec/mailers/zombie_mailer_spec.rb describe ZombieMailer do context ‘#welcome’ do # This is not necessory. Should be stub. let(:zombie) { Zombie.create(email: ‘ash@zombie.com’)</p>
+
+<pre><code>   # Could change to next line:
+   # let(:zombie) { stub(email: &#39;ash@zombie.com&#39;) }
+   
+   subject { ZombieMailer.welcome(zombie) }
+   
+   its(:from) { should include(&#39;admin@example.com&#39;)
+   its(:to) { should include(zombie.email) }
+   its(:subject) { should == &#39;Welcome Zombie!&#39; }
+ end</code></pre>
+
+<p>end</p>
+
+<p>“</p>
+
+<pre><code>Note: More stub options
+
+target.should_receive(:function).once
+                                .twice
+                                .exactly(3).times
+                                .at_least(2).times
+                                .at_most(3).times
+                                .any_number_of_times
+                                
+target.should_receive(:function).with(no_args())
+                                .with(any_args())
+                                .with(&quot;B&quot;, anything())
+                                .with(3, kind_of(NUmeric))
+                                .with(/zombie ash/)</code></pre>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">rocLv's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> rocLv </h4>
+                    <!-- Author Bio -->
+                    <p> 
+                        I'm a common rubyist, feel free to connect with me.
+                    </p>
+                </section>                
+            
+
+            <!-- Share links section -->
+
+            <form action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+
+       <input name="optEmail" type="hidden" value="roc_war@yahoo.com.cn" />
+
+       <input name="payAmount" type="hidden" value="5" />
+
+       <input id="title" name="title" type="hidden" value="付款说明" />
+
+       <input name="memo" type="hidden" value="备注" />
+
+       <input name="pay" type="image" value="打赏" src= '/assets/images/donate.png' />
+
+      </form>    
+            <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_renren"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+            <!-- Disqus comments -->
+            
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+
+        var disqus_shortname = 'roclv'; 
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">rocLv's home for ruby & rails</a> &copy; 
+               &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-71237400-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>

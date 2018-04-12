@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>rocLv's home for ruby & rails - All about ruby and rails</title>
+    <meta name="description" content="ruby or rails news, or some site developing stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="post-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Rails开发环境常用配置</h1>
+            <section class="post-meta">                
+                <time class="post-date" datetime="2015-02-14">14 Feb 2015</time>
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="roclv.github.io/rss">
+                
+                    <span class="blog-title">rocLv's home for ruby & rails</span>
+                 
+            </a>
+        </header> -->
+        
+        <!-- <span class="post-meta">
+            <time datetime="2015-02-14">14 Feb 2015</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Rails开发环境常用配置</h1> -->
+
+        <section class="post-content">
+            
+<p>列举了Rails开发常用的gem以及初始化过程 <!--more--></p>
+
+<h3 id="rails">Rails开发环境常用配置</h3>
+
+<p>Rails开发中除了初始化后，Gemfile中自动包含的gem，常用的还有： * rspec-rails * capybara * shoulda-matcher * guard-rspec * guard-livereload * database_cleaner * factory_girl_rails 等等。</p>
+
+<p>首先在Gemfile中添加如下代码：</p>
+
+<p>“by group :developement, :test do gem ‘rspec-rails’ gem ‘capybara’ gem ‘shoulda-matcher’ gem ‘guard-rspec’ gem ‘guard-livereload’ gem ‘database_cleaner’ gem ‘factory_girl_rails’ end “</p>
+
+<p>保存， 然后运行：<br /> <code>$ bundle</code></p>
+
+<p>然后，初始化rspec</p>
+
+<p>“by rails generate rspec:install</p>
+
+<p>#或者</p>
+
+<p>rails g rspec:install “</p>
+
+<p>生成以下文件：</p>
+
+<ul>
+<li>.rspec</li>
+
+<li>spec/spec_helper.rb</li>
+
+<li>spec/rails_helper.rb</li>
+</ul>
+
+<p>然后，初始化Guardfile</p>
+
+<p><code>$ guard init</code></p>
+
+<p>提示：</p>
+
+<pre><code>11:31:04 - INFO - Writing new Guardfile to /your/app/path/Guardfile
+11:31:04 - INFO - livereload guard added to Guardfile, feel free to edit it
+11:31:05 - INFO - rspec guard added to Guardfile, feel free to edit it</code></pre>
+
+<p>然后添加__capybara__到rails_helper.rb</p>
+
+<p><code>require &#39;capybara/rails&#39;</code></p>
+
+<p>添加shoulda-matcher到rails_helper.rb文件中<br /><code>require &#39;shoulda/matchers&#39;</code></p>
+
+<p>添加配置文件到 <strong>spec/support/factory_girl.rb</strong></p>
+
+<p>“by</p>
+
+<h1 id="specsupportfactory_girlrb">spec/support/factory_girl.rb</h1>
+
+<p>RSpec.configure do |config| # 包含这行，以便省略FactoryGirl前缀 config.include FactoryGirl::Syntax::Methods</p>
+
+<p># 设置factory_girl验证 config.before(:suite) do begin DatabaseCleaner.start FactoryGirl.lint ensure DatabaseCleaner.clean end end end</p>
+
+<p>“用方法： <code>rails g factory_girl:model ModelName</code> <br />rspec会自动查找<code>spec/factory_girl.rb</code>或<br /><code>spec/factory_girl/*.rb</code></p>
+
+<p>配置<strong>database_cleaner</strong></p>
+
+<p>“by RSpec.configure do |config|</p>
+
+<p>config.before(:suite) do DatabaseCleaner.strategy = :transaction DatabaseCleaner.clean_with(:truncation) end</p>
+
+<p>config.around(:each) do |example| DatabaseCleaner.cleaning do example.run end end</p>
+
+<p>end</p>
+
+<p>“</p>
+
+<p>至此，一个基本的rails测试环境基本搭建完毕。</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">rocLv's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> rocLv </h4>
+                    <!-- Author Bio -->
+                    <p> 
+                        I'm a common rubyist, feel free to connect with me.
+                    </p>
+                </section>                
+            
+
+            <!-- Share links section -->
+
+            <form action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+
+       <input name="optEmail" type="hidden" value="roc_war@yahoo.com.cn" />
+
+       <input name="payAmount" type="hidden" value="5" />
+
+       <input id="title" name="title" type="hidden" value="付款说明" />
+
+       <input name="memo" type="hidden" value="备注" />
+
+       <input name="pay" type="image" value="打赏" src= '/assets/images/donate.png' />
+
+      </form>    
+            <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_renren"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+            <!-- Disqus comments -->
+            
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+
+        var disqus_shortname = 'roclv'; 
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">rocLv's home for ruby & rails</a> &copy; 
+               &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-71237400-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>rocLv's home for ruby & rails - All about ruby and rails</title>
+    <meta name="description" content="ruby or rails news, or some site developing stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+</head>
+<body class="post-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">rake guide</h1>
+            <section class="post-meta">                
+                <time class="post-date" datetime="2015-12-18">18 Dec 2015</time>
+                
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="roclv.github.io/rss">
+                
+                    <span class="blog-title">rocLv's home for ruby & rails</span>
+                 
+            </a>
+        </header> -->
+        
+        <!-- <span class="post-meta">
+            <time datetime="2015-12-18">18 Dec 2015</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">rake guide</h1> -->
+
+        <section class="post-content">
+            
+<h1 id="4_days_rake_guide">4 days Rake Guide</h1>
+
+<ul>
+<li>Day 1: Introduction to Rake</li>
+
+<li>Day 2: Dependencies</li>
+
+<li>Day 3: Rails and Rake</li>
+
+<li>Day 4: Use Rake to build project</li>
+</ul>
+<!--more-->
+<h1 id="the_4_days_rake_guide">The 4 days Rake Guide</h1>
+
+<h2 id="day_1_introduction_to_rake">Day 1: Introduction to Rake</h2>
+
+<h3 id="what_is_rake">What is rake?</h3>
+
+<p>Rake is a Rubygem written by Jim Weirich. He built the ruby version of make (the C build tool) and over time Rake became a popular tool to create command line Ruby applications and automation scripts. It has an easy to follow DSL and some very powerful features like task dependencies, but more on these later.</p>
+
+<h3 id="what_can_i_use_rake_for">What can I use Rake for?</h3>
+
+<p>If you know Ruby on Rails you use Rake very often because most of the command line Rails features are Rake tasks. Namely rake db:migrate, rake test etc. If you need a custom command line script for your Rails application (running an import, periodically updating something in the database) Rake is your friend. Also anytime you want to automate something with a script, Rake is a very powerful tool to rely on.</p>
+
+<h3 id="install_rake">Install rake</h3>
+
+<p>Rake is distributed as a Rubygem so all you need to do is enter gem install rake in your console to install it.</p>
+
+<h3 id="rakefile">Rakefile</h3>
+
+<p>Rake reads the task from a Rakefile and in additionally you can separate your tasks into multiple files and put them into the rakelib folder with the .rake extension. Let’s create a Rakefile with a simple task:</p>
+
+<p>“by</p>
+
+<h1 id="rakefile_2">Rakefile</h1>
+
+<p>desc “Hello world” task :hello_world do puts “Hello world!” end</p>
+
+<p>“ow we know how to make ‘Hello world’ with Rake. Let’s break down this code. First we give a description to the task than we set the name of the task to a symbol(we could you strings too) than passing a block and Rake will evaluate that block when we call this task.</p>
+
+<p><img src="https://gallery.mailchimp.com/6f2ca41e3d7b84333e7f7bbe8/images/image1.jpg" alt="" /></p>
+
+<p>Let’s call the task:</p>
+
+<p>“ rake hello_world Hello world!</p>
+
+<p>“f you enter <code>rake -T</code> in your console you will get a list of available tasks:</p>
+
+<p>“ rake -T rake hello_world # Hello world</p>
+
+<p>“he Rakefile is basically a ruby file so you can write any ruby code inside.</p>
+
+<h3 id="task_types">Task types</h3>
+
+<p>Rake has four types of tasks:</p>
+
+<ul>
+<li><code>task</code> is a generic task</li>
+
+<li><code>directory</code> creates a directory</li>
+
+<li><code>file</code> creates a file with the result of the block we pass</li>
+
+<li><code>multitask</code> calls its dependencies in parallel</li>
+</ul>
+
+<p>That’s it for today, tomorrow you will learn about dependencies.</p>
+
+<h2 id="day_2_dependencies">Day 2: Dependencies</h2>
+
+<p>Today I will teach you how Rake handles the dependencies. I will use code examples but instead of repeating the whole code everytime I will just show you the important parts, then at the bottom of the email you can view the full example. Rake makes it easy to define dependent tasks. Let’s say we want to import a dataset from a remote source into our application. We want to make separate tasks for importing the categories, products and the orders so we can run those bits separately:</p>
+
+<p>“by desc “Import categories” task :categories do puts “import categories” end</p>
+
+<p>desc “Import products” task :products do puts “import products” end</p>
+
+<p>desc “Import orders” task :orders do puts “import orders” end</p>
+
+<p>“o far so good but we need to get the remote data before each of these tasks so we will define another task and set that as a dependency for these:</p>
+
+<p>“by desc “Download data” task :download do puts “download data from source” end</p>
+
+<p>desc “Import categories” task :categories =&gt; :download do puts “import categories” end</p>
+
+<p>desc “Import products” task :products =&gt; :download do puts “import products” end</p>
+
+<p>desc “Import orders” task :orders =&gt; :download do puts “import orders” end</p>
+
+<p>“</p>
+
+<p><img src="https://gallery.mailchimp.com/6f2ca41e3d7b84333e7f7bbe8/images/image2.jpg" alt="dependency" /></p>
+
+<p>As you see you can set a dependency with the hashrocket and you can pass one task or an array of tasks. If you call rake with the -P switch it will display the dependency tree:</p>
+
+<p>“ rake -P rake categories download rake download rake orders download rake products download</p>
+
+<p>“</p>
+
+<p>In our example, when we import the products, we want to make sure we have the latest categories so let’s make the products task depend on categories:</p>
+
+<p>“by desc “Download data” task :download do puts “download data from source” end</p>
+
+<p>desc “Import categories” task :categories =&gt; :download do puts “Import categories” end</p>
+
+<p>desc “Import products” task :products =&gt; :categories do puts “Import products” end</p>
+
+<p>desc “Import orders” task :orders =&gt; :download do puts “import orders” end</p>
+
+<p>“</p>
+
+<p>This looks great but we would like to have a task to run a full import too so let’s make a task for that:</p>
+
+<p>“by desc “Import everything” task :all =&gt; [:categories, :products, :orders] do puts “Imported everything” end</p>
+
+<p>“</p>
+
+<p><img src="https://gallery.mailchimp.com/6f2ca41e3d7b84333e7f7bbe8/images/image3.jpg" alt="array of dependency" /></p>
+
+<p>You might think: “But wait… this will run download 3 times and categories 2 times, won’t it?” Nope. Rake disables a task after the first invocation. If you want to run a dependent task even if it is already invoked you can reenable it. If you call the task you should see this result:</p>
+
+<p>“ rake all download data from source import categories import products import orders Imported everything</p>
+
+<p>“f you want to import the products only:</p>
+
+<p>“ rake products download data from source import categories import products</p>
+
+<p>“f you need to <code>reenable</code> a task:</p>
+
+<p>“by desc “Import categories” task :categories =&gt; :download do puts “Import categories” Rake::Task[categories].reenable end</p>
+
+<p>“</p>
+
+<p>Note that it imported the categories first because products depends on categories. We can also set a default task with rake so when you call only rake it will run the default task. Let’s set the all task to be the default:</p>
+
+<p><code>task :default =&gt; [:all]</code></p>
+
+<p>As I promised here is how the Rakefile should look now:</p>
+
+<p>“by desc “Download data” task :download do puts “download data from source” end</p>
+
+<p>desc “Import categories” task :categories =&gt; :download do puts “Import categories”</p>
+
+<p>end</p>
+
+<p>desc “Import products” task :products =&gt; :categories do puts “Import products” end</p>
+
+<p>desc “Import orders” task :orders =&gt; :download do puts “import orders” end</p>
+
+<p>desc “Import eveything” task :all =&gt; [:categories, :products, :orders] do puts “Imported everything” end</p>
+
+<p>task :default =&gt; [:all]</p>
+
+<p>“</p>
+
+<p>That’s it for today. Tomorrow we will look at how Rails uses Rake and how can we add custom Rake tasks to a Rails application.</p>
+
+<h2 id="day_3_rails_and_rake">Day 3: Rails and rake</h2>
+
+<p>As I already mentioned Rails uses Rake for various tasks like running the database migrations. Today we are going to look at these tasks. If you enter rake -T you will get a list of Rake tasks but this only displays the ones with a description, so the ones intended to be internal are not on this list. If you want to see those too you can use the -A switch:</p>
+
+<p>“ rake -T -A rake about # List versions of all Rai.. rake assets:clean[keep] # Remove old compiled assets rake assets:clobber # Remove compiled assets rake assets:environment # Load asset compile enviro. rake assets:precompile # Compile all the assets … rake cache_digests:dependencies # Lookup first-level depen.. rake db:_dump # rake db:charset # …</p>
+
+<p>“</p>
+
+<p>If you want to make a custom Rake task in your Rails application you can create a file with the .rakeextension in the lib/tasks folder. For instance if you would like to make that import inside a Rails application, you would add the code from yesterday to lib/tasks/import.rake. One important part we haven’t talked about yet is namespacing. There might be another task callled download in your Rails application which would cause some unexpected results. Important to note here the fact, if Rake finds a task definition for an already defined task it will extend not override it. To make sure our tasks are safe and also to make them nicely grouped we will move them into a namespace:</p>
+
+<p>“by</p>
+
+<h1 id="libtasksimportrake">lib/tasks/import.rake</h1>
+
+<p>namespace :import desc “Download data” task :download do puts “download data from source” end</p>
+
+<p>desc “Import categories” task :categories =&gt; :download do puts “import categories” end</p>
+
+<p>desc “Import products” task :products =&gt; :categories do puts “import products” end</p>
+
+<p>desc “Import orders” task :orders =&gt; :download do puts “import orders” end</p>
+
+<p>desc “Import eveything” task :all =&gt; [:categories, :products, :orders] do puts “Imported everything” end end</p>
+
+<p>“</p>
+
+<p>From now on we can call the tasks with the colon syntax: <code>rake import:all</code>. When you write a task which interacts with Rails you should set the environment task to a dependency. Since the download task is called in each case we can make that depending on environment:</p>
+
+<p>“by … task :download =&gt; :environment do puts “download data from source” end …</p>
+
+<p>“his task basically loads your app for you in the environment you had set. It is good to know Rails sets eager_load to false in this task so if you want to use multiple threads in a task it is better to not use this task as a dependency, rather just load the environment yourself:</p>
+
+<p>“by …</p>
+
+<h1 id="if_you_use_multiple_threads">if you use multiple threads</h1>
+
+<p>task :download do Rails.application.require_environment! puts “download data from source” end …</p>
+
+<p>“</p>
+
+<p>This was a short one but tomorrow we will do some really interesting stuff when I will share you how I build this newsletter with the help of Rake. Here is the full Rakefile of what we have done today:</p>
+
+<p>“by</p>
+
+<h1 id="libtasksimportrake_2">lib/tasks/import.rake</h1>
+
+<p>namespace :import desc “Download data” task :download =&gt; :environment do puts “download data from source” end</p>
+
+<p>desc “Import categories” task :categories =&gt; :download do puts “import categories” end</p>
+
+<p>desc “Import products” task :products =&gt; :categories do puts “import products” end</p>
+
+<p>desc “Import orders” task :orders =&gt; :download do puts “import orders” end</p>
+
+<p>desc “Import eveything” task :all =&gt; [:categories, :products, :orders] do puts “Impor#Imported everything” end end</p>
+
+<p>“</p>
+
+<h2 id="day_4_use_rake_to_build_a_project">Day 4: Use Rake to build a project</h2>
+
+<p>Taking it to the next level As I already mentioned Rake is intended to be a build tool, but it is used to do a lot of other things and many Rake users don’t even know the features makes Rake a powerful build system. Actually I am using Rake to build this course. I write all the content in markdown, and I have a Rake task which converts that to HTML. I have a directory structure like this:</p>
+
+<blockquote></blockquote>
+
+<pre><code>source
+  - day1.md
+  - day2.md
+  - day3.md
+  - day4.md
+  ...
+  Rakefile</code></pre>
+
+<p>As you see, I store my markdown files in the source folder, and I want to have an output folder where I want my HTML files to be created. Rake has a directory method which I can use:</p>
+
+<p><code>directory &quot;output&quot;</code> Next, I will create a Filetask, which is a bit different from normal tasks. Filetasks doesn’t trigger all the time, only if the target file doesn’t exist or the source file is changed since the target was created. Because of this Rake will save some time on rebuilds. Let’s see some code for this:</p>
+
+<p>“by</p>
+
+<h1 id="rakefile_3">Rakefile</h1>
+
+<p>directory “output”</p>
+
+<p>desc “build day1” file “output/day1.html” =&gt; [output, source/day1.md] do |task| rendered = redcarpet.render( File.read(task.prerequisites.first) ) File.new(task.name, ‘w+’).write(rendered) puts “Built #{task.name}” end</p>
+
+<p>“hen you define a Filetask, the name of the task is the target file and you can pass an array of prerequisites with the hashrocket and do the work in the block. The prerequisites are the <code>output</code> folder and the source file in this case. With the file task I have access to the <a href="http://rake.rubyforge.org/Rake/Task.html">Task</a> object in the block which holds the name of the task and the prerequisites. I print the name of the task at the end of the block which helps to see when the file is actually built. If I call <code>rake output/day1.html</code> twice in a row, the second time it won’t print the output because it will not generate the file again. Two more things to note about Filetasks:</p>
+
+<ul>
+<li>the naming convention is to use strings but you can use symbols if you would like</li>
+
+<li>Filetasks ignore the namespaces</li>
+</ul>
+
+<p>If I would go this way I should repeat this code for each day and I am too lazy to do that. Instead I use Rake’s FileList and I create an array of arrays with the target and the source:</p>
+
+<p>“by</p>
+
+<h1 id="rakefile_4">Rakefile</h1>
+
+<p>directory “output”</p>
+
+<p>source_files = FileList[source/.md] target_files = source_files.pathmap(output/%n.html)]</p>
+
+<p>target_files.zip(source_files).each do |target, source| desc “build #{target}” file target =&gt; [output, source] do |task| rendered = redcarpet.render( File.read(task.prerequisites.first) ) File.new(task.name, ‘w+’).write(rendered) puts “Built #{task.name}” end end</p>
+
+<p>“f I list the tasks now I get the following result:</p>
+
+<p>“ rake -T rake output/day1.html # build output/day1.html rake output/day2.html # build output/day2.html rake output/day3.html # build output/day3.html rake output/day4.html # build output/day4.html</p>
+
+<p>“ince I don’t want to trigger these individually, I have a task to build all of the source files:</p>
+
+<p>“by desc “Build all files” task :build =&gt; target_files</p>
+
+<p>“s you I see I just simply set target_files as a dependency and Rake will call all the dynamically generated tasks for me. This isn’t a bad solution but if I had hundreds of files it wouldn’t be optimal. Instead Rake has another way of achieving the same result. It is called Rules.</p>
+
+<h3 id="rules">Rules</h3>
+
+<p>This feature of Rake is a little bit like method_missing in Ruby. If Rake couldn’t find a Filetask it will look at the rules defined and if it finds a match, it will call it. When we define a rule we pass the target as either a string or a regular expression, and we also pass the source, but since that is dynamic we will use a lambda to get the source name from the target. Then in the block we will do the work:</p>
+
+<p>“by</p>
+
+<h1 id="rakefile_5">Rakefile</h1>
+
+<p>directory “output” source = lambda { |fn| fn.pathmap(“source/%n.md”) } rule /^output\/.<em>.html/ =&gt; [source] do |task| rendered = redcarpet.render(File.read(task.source)) File.new(task.name, ‘w+’).write(rendered) puts “Built #{task.name}” end</em></p>
+
+<p>task :build =&gt; [output] + target_files</p>
+
+<p>“ow we have a few lines of code which covers almost all my needs. One more thing I’d like to have is a way to get a clean state, so I will use Rake’s built in clean task:</p>
+
+<p>“by require ‘rake/clean’ CLEAN.include(“output”)</p>
+
+<p>“</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>That’s all I wanted to share with you about Rake. I hope you enjoyed the series of emails and you learned a few tricks. If you have aboutny questions of feedback about what you’ve read don’t hesitate to contact me at greg@molnar.io.</p>
+
+<p>Copyright © 2015 Gergely Molnar, All rights reserved.</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">rocLv's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> rocLv </h4>
+                    <!-- Author Bio -->
+                    <p> 
+                        I'm a common rubyist, feel free to connect with me.
+                    </p>
+                </section>                
+            
+
+            <!-- Share links section -->
+
+            <form action="https://shenghuo.alipay.com/send/payment/fill.htm" method="POST" target="_blank" accept-charset="GBK">
+
+       <input name="optEmail" type="hidden" value="roc_war@yahoo.com.cn" />
+
+       <input name="payAmount" type="hidden" value="5" />
+
+       <input id="title" name="title" type="hidden" value="付款说明" />
+
+       <input name="memo" type="hidden" value="备注" />
+
+       <input name="pay" type="image" value="打赏" src= '/assets/images/donate.png' />
+
+      </form>    
+            <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_renren"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+            <!-- Disqus comments -->
+            
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+
+        var disqus_shortname = 'roclv'; 
+        var disqus_developer = 0; // developer mode is on
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/">rocLv's home for ruby & rails</a> &copy; 
+               &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-71237400-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>
