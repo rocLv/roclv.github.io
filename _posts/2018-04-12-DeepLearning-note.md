@@ -69,6 +69,5 @@ One common preprocessing step in machine learning is to center and standardize y
       * Update parameters (gradient descent)
 
 You often build 1-3 separately and integrate them into one function we call
-model().
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+model()
 
