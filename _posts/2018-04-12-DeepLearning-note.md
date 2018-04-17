@@ -71,3 +71,5 @@ One common preprocessing step in machine learning is to center and standardize y
 You often build 1-3 separately and integrate them into one function we call
 model()
 
+
+\\[ \mathbf{X} = \mathbf{Z} \mathbf{P^\mathsf{T}} \\]
