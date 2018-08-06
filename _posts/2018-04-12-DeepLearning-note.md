@@ -1,6 +1,7 @@
 ---
   layout: post
   title: Logistic Regression with a Neural Network mindset
+  categories: Machine learning
 ---
 
 ### Regression with a Neural Network mindset
