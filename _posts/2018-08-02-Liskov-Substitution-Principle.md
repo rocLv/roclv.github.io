@@ -1,7 +1,6 @@
 ---
   layout: post
   title:  里氏替换原则
-  date:   2018-08-03 16:16:01 -0600
   categories: SOLID
 ---
 
