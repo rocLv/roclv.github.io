@@ -1,8 +1,8 @@
 ---
-layout: post
-title:  里氏替换原则
-date:   2018-08-03 16:16:01 -0600
-categories: SOLID
+  layout: post
+  title:  里氏替换原则
+  date:   2018-08-03 16:16:01 -0600
+  categories: SOLID
 ---
 
    ### SOLID原则之二： 你应该总是可以用子类来替换父类，而且不会出现任何问题。
