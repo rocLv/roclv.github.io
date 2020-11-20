@@ -1,13 +1,13 @@
 ---
 layout: post
 title:  "Java in a Page"
-date:   2020-11-17 16:16:01 -0600
-categories: Java
 ---
 
 This is a java tutorial in one page.
 
 <!-- more -->
+
+### Java Basic
 
 ```java
 
