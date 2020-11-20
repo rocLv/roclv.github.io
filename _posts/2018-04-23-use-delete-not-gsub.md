@@ -2,11 +2,11 @@
 layout: post
 title:  "Use `delete` rather than `gsub`"
 date:   2018-04-27 16:16:01 -0600
-categories: ruby
 ---
 
 `delete` is 2.x times faster than `gsub`
-<!-- more -->
+
+<!--more-->
 
 ```ruby
 
