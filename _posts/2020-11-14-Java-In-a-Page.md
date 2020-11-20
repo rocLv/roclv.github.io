@@ -1,14 +1,14 @@
 ---
   layout: post
-  title:  "Java in a Page"
+  title:  Java in a Page
 ---
-
 
 ##### Java Basic
 
-<!-- more -->
-
 This is a java tutorial in one page.
+
+<!--more-->
+
 
 ```java
 
