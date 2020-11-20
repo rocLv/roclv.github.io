@@ -1,13 +1,12 @@
 ---
   layout: post
   title:  里氏替换原则
-  categories: SOLID
 ---
 
    ### SOLID原则之二： 你应该总是可以用子类来替换父类，而且不会出现任何问题。
    [source](https://www.netguru.co/codestories/solid-principles-3-lsp)
 
-<!-- more -->
+<!--more-->
 
 
 
