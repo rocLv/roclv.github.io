@@ -1,7 +1,6 @@
 ---
   layout: post
   title:  "SOLID: Interface segregation principle"
-  categories: SOLID
 ---
 
 ##### SOLID: 接口隔离原则
